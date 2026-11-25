@@ -98,6 +98,9 @@
   .bar .in{max-width:1120px;margin:0 auto;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
   .bar .sum{flex:1;font-size:14px;min-width:140px}
   .bar .sum b{font-size:18px;color:var(--red)}
+  .promo{font-size:12.5px;color:#b45309;margin-top:2px}
+  .promo.ok{color:#15803d;font-weight:600}
+  .promoTag{display:inline-block;background:#fff7ed;color:#b45309;border:1px solid #fed7aa;border-radius:999px;padding:3px 10px;font-size:12.5px;margin:4px 0 8px}
   .seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
   .seg button{border:0;background:#fff;padding:10px 12px;font-size:13px;cursor:pointer}
   .seg button.on{background:var(--accent);color:#fff}
@@ -209,7 +212,7 @@
 <!-- 配件選購底部列 -->
 <div class="bar" id="accBar">
   <div class="in">
-    <div class="sum">已選 <b id="accN">0</b> 件・合計 <b id="accT">$0</b></div>
+    <div class="sum">已選 <b id="accN">0</b> 件・合計 <b id="accT">$0</b><div class="promo" id="accPromo"></div></div>
     <span class="seg" id="accStore"><button data-s="楠梓店" class="on">楠梓店</button><button data-s="德賢店">德賢店</button></span>
     <a class="btn line" id="accSend" href="#" style="flex:none;padding:11px 18px">💬 LINE 詢問</a>
   </div>
@@ -262,6 +265,24 @@ const CHECK = [['ver','銷售國家版本'],['carrier','是否有電信業者鎖
 /* ========================================================= */
 let items = [], accs = [], M = null;
 let state = { q:"", brand:"全部", store:"", sort:"new" };
+// 配件滿額折：只算配件金額（不含中古機），單筆只折一次。要關掉把 enabled 改 false
+const PROMO = { enabled: true, min: 1000, off: 100 };
+function promoOf(sum){
+  if (!PROMO.enabled || !sum) return { off: 0, need: 0, pay: sum };
+  if (sum >= PROMO.min) return { off: PROMO.off, need: 0, pay: sum - PROMO.off };
+  return { off: 0, need: PROMO.min - sum, pay: sum };
+}
+function promoHint(sum){
+  if (!PROMO.enabled || !sum) return "";
+  const r = promoOf(sum);
+  return r.off ? `<span class="promo ok">🎉 已享滿額折 −${fmt(r.off)}，配件應付 ${fmt(r.pay)}</span>`
+               : `<span class="promo">再買 ${fmt(r.need)} 現折 ${fmt(PROMO.off)}</span>`;
+}
+function promoLines(sum){
+  const r = promoOf(sum);
+  return r.off ? ["滿額折：−" + fmt(r.off), "配件應付：" + fmt(r.pay)] : [];
+}
+const PROMO_TAG = () => PROMO.enabled ? `<div class="promoTag">🎁 配件滿 ${fmt(PROMO.min)} 現折 ${fmt(PROMO.off)}（每筆限折一次）</div>` : "";
 let accState = { model: "", cat: "全部", picked: new Set(), store: "楠梓店" };
 let detailPicked = new Set();
 const $ = s => document.querySelector(s);
@@ -468,7 +489,7 @@ function drawDetailAct(){
   const pay = INSTALLMENT.enabled && INSTALLMENT.url
     ? `<a class="btn pay" href="${esc(INSTALLMENT.url.replace("{price}", encodeURIComponent(p.price)).replace("{model}", encodeURIComponent(p.model)))}" target="_blank" rel="noopener">💳 ${esc(INSTALLMENT.label)}</a>` : "";
   $("#dAct").innerHTML = `
-    ${picked.length ? `<div class="tot">手機 ${fmt(p.price)} ＋ 配件 ${picked.length} 件 ${fmt(addSum)} ＝ <b style="color:var(--red)">${fmt(Number(p.price)+addSum)}</b></div>` : ""}
+    ${picked.length ? `<div class="tot">手機 ${fmt(p.price)} ＋ 配件 ${picked.length} 件 ${fmt(addSum)}${promoOf(addSum).off?` − 滿額折 ${fmt(promoOf(addSum).off)}`:""} ＝ <b style="color:var(--red)">${fmt(Number(p.price)+promoOf(addSum).pay)}</b><br>${promoHint(addSum)}</div>` : (PROMO.enabled ? `<div class="tot">${PROMO_TAG()}</div>` : "")}
     <div class="row2">${pay}<button class="btn share" style="flex:none;padding:11px 14px" onclick="shareItem(curItem)">↗ 分享</button><a class="btn line" href="${lineUrl(p.branch, interestText(p, picked))}" onclick="track('${esc(p.branch)}')">💬 LINE 詢問這台${picked.length?`＋${picked.length} 件配件`:""}</a></div>`;
 }
 function closeItem(){
@@ -528,7 +549,7 @@ function renderAcc(){
     ? `<div class="empty">${accs.length ? "目前沒有 " + esc(what) + " 上架" : "配件陸續上架中"}<br><a href="${ask}">LINE 詢問門市</a>，幫你調貨或推薦</div>`
     : (model
       ? `<p class="meta">適合 <b>${esc(model.name)}</b> 的配件 ${fit.length} 項，可自由勾選後一起帶入 LINE。</p>`
-      : `<p class="meta">全部配件 ${fit.length} 項・<b>先選手機型號</b>，就只顯示相容的配件</p>`) + accGroups(shown, accState.picked);
+      : `<p class="meta">全部配件 ${fit.length} 項・<b>先選手機型號</b>，就只顯示相容的配件</p>`) + PROMO_TAG() + accGroups(shown, accState.picked);
   bindAcc($("#accOut"), accState.picked, drawAccBar);
   drawAccBar();
 }
@@ -536,10 +557,11 @@ function drawAccBar(){
   const picked = accs.filter(a => accState.picked.has(a.id));
   const sum = picked.reduce((s,a)=>s+Number(a.price||0),0);
   $("#accN").textContent = picked.length; $("#accT").textContent = fmt(sum);
+  $("#accPromo").outerHTML = `<div class="promo${promoOf(sum).off?" ok":""}" id="accPromo">${promoHint(sum).replace(/<[^>]+>/g,"")}</div>`;
   $("#accBar").classList.toggle("show", !$("#tab-acc").hidden && picked.length > 0);
   const lines = ["我想預訂配件：", "機型：" + (accState.model || "（未選）"), "商品："];
   picked.forEach(a => lines.push("・" + a.name + " " + fmt(a.price)));
-  lines.push("合計：" + fmt(sum), "（官網配件選購）");
+  lines.push("合計：" + fmt(sum), ...promoLines(sum), "（官網配件選購）");
   $("#accSend").href = lineUrl(accState.store, lines.join("\n"));
   $("#accSend").onclick = () => track(accState.store);
 }
@@ -552,7 +574,8 @@ function interestText(p, picked){
   if (picked.length){
     lines.push("加購配件：");
     picked.forEach(a => lines.push("・" + a.name + " " + fmt(a.price)));
-    lines.push("配件合計：" + fmt(picked.reduce((s,a)=>s+Number(a.price||0),0)));
+    const as = picked.reduce((s,a)=>s+Number(a.price||0),0);
+    lines.push("配件合計：" + fmt(as), ...promoLines(as));
   }
   lines.push(p.peer ? "（官網優質中古機・同業調貨）" : "（官網優質中古機）");
   return lines.join("\n");
