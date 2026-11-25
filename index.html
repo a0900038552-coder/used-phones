@@ -3,23 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>中古機現貨｜復原者手機維修</title>
-<meta name="description" content="復原者手機維修 楠梓店・德賢店 中古機現貨，上架前完整驗機、附檢測報告與實機照片，LINE 真人接洽。">
+<title>中古機現貨・配件選購｜復原者手機維修</title>
+<meta name="description" content="復原者手機維修 楠梓店・德賢店：中古機現貨附實機照片與檢測報告；依手機型號挑選相容配件，LINE 真人接洽。">
 <style>
   :root{
     --bg:#f6f7f9; --card:#fff; --ink:#16181d; --sub:#6b7280; --line:#e5e7eb;
-    --accent:#111827; --red:#d71920; --line-green:#06c755; --gold:#b8892d; --radius:14px;
+    --accent:#111827; --red:#d71920; --line-green:#06c755; --radius:14px;
   }
   *{box-sizing:border-box}
   body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
   button{font-family:inherit}
   .wrap{max-width:1120px;margin:0 auto;padding:0 16px}
-  header.hero{background:#fff;border-bottom:1px solid var(--line);padding:26px 0 18px}
-  .hero h1{margin:0 0 6px;font-size:26px;letter-spacing:.5px}
+  header.hero{background:#fff;padding:22px 0 0}
+  .hero h1{margin:0 0 4px;font-size:24px;letter-spacing:.5px}
   .hero p{margin:0;color:var(--sub);font-size:14px;line-height:1.6}
-  .badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
   .badge{font-size:12px;padding:5px 10px;border-radius:999px;background:#f3f4f6;color:#374151}
   .badge.hl{background:#fdecec;color:var(--red)}
+  .tabs{display:flex;gap:4px;margin-top:16px;border-bottom:1px solid var(--line)}
+  .tabs button{border:0;background:none;padding:12px 16px;font-size:15px;font-weight:700;color:var(--sub);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-1px}
+  .tabs button.on{color:var(--ink);border-bottom-color:var(--red)}
 
   .toolbar{position:sticky;top:0;z-index:20;background:rgba(246,247,249,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:12px 0}
   .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
@@ -54,12 +57,37 @@
   .skeleton{background:linear-gradient(90deg,#eee 25%,#f6f6f6 50%,#eee 75%);background-size:200% 100%;animation:sh 1.2s infinite;border-radius:var(--radius);height:360px}
   @keyframes sh{to{background-position:-200% 0}}
 
+  /* 配件清單 */
+  .acc-group h3{font-size:17px;margin:20px 0 10px;display:flex;align-items:baseline;gap:8px}
+  .acc-group h3 small{font-size:13px;color:var(--sub);font-weight:600}
+  .acc-list{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(320px,1fr))}
+  .acc{display:flex;align-items:center;gap:12px;background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:12px;cursor:pointer;user-select:none}
+  .acc.on{border-color:var(--red);background:#fff7f7}
+  .acc .box{flex:none;width:24px;height:24px;border-radius:7px;border:2px solid #cbd0d8;display:flex;align-items:center;justify-content:center;color:#fff;font-size:15px;font-weight:900}
+  .acc.on .box{background:var(--red);border-color:var(--red)}
+  .acc img,.acc .noimg{flex:none;width:72px;height:72px;border-radius:10px;object-fit:cover;background:#f3f4f6;display:flex;align-items:center;justify-content:center;color:#9ca3af;font-size:26px}
+  .acc .info{flex:1;min-width:0}
+  .acc .nm{font-weight:700;font-size:14.5px;line-height:1.4}
+  .acc .sub{font-size:12px;color:var(--sub);margin-top:3px}
+  .acc .px{flex:none;font-weight:800;color:var(--red);white-space:nowrap}
+  .picker{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;margin-top:14px}
+  .picker label{display:block;font-size:13px;color:var(--sub);margin-bottom:6px}
+  .picker select{width:100%;font-size:16px;padding:12px}
+  .bar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:#fff;border-top:1px solid var(--line);padding:10px 16px calc(10px + env(safe-area-inset-bottom));display:none;box-shadow:0 -6px 20px rgba(0,0,0,.05)}
+  .bar.show{display:block}
+  .bar .in{max-width:1120px;margin:0 auto;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .bar .sum{flex:1;font-size:14px;min-width:140px}
+  .bar .sum b{font-size:18px;color:var(--red)}
+  .seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .seg button{border:0;background:#fff;padding:10px 12px;font-size:13px;cursor:pointer}
+  .seg button.on{background:var(--accent);color:#fff}
+
   /* 詳細頁 */
   .mask{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:40;display:none}
   .mask.show{display:block}
   .sheet{position:fixed;left:0;right:0;bottom:0;z-index:50;background:#fff;border-radius:18px 18px 0 0;max-height:92vh;overflow:auto;transform:translateY(100%);transition:transform .25s ease}
   .sheet.show{transform:none}
-  @media(min-width:760px){.sheet{max-width:620px;margin:0 auto}}
+  @media(min-width:760px){.sheet{max-width:640px;margin:0 auto}}
   .sheet .close{position:sticky;top:0;z-index:2;display:flex;justify-content:flex-end;padding:8px 8px 0;background:linear-gradient(#fff,rgba(255,255,255,0))}
   .sheet .close button{border:0;background:#f3f4f6;border-radius:999px;width:34px;height:34px;font-size:16px;cursor:pointer}
   .gallery{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:6px;padding:0 16px;scrollbar-width:none;margin-top:-26px}
@@ -67,65 +95,88 @@
   .gallery img{flex:none;width:88%;max-width:520px;aspect-ratio:1/1;object-fit:cover;border-radius:12px;scroll-snap-align:center;background:#f3f4f6;cursor:zoom-in}
   .gallery .noimg{flex:none;width:100%;aspect-ratio:16/9;border-radius:12px;background:#f3f4f6;display:flex;align-items:center;justify-content:center;color:#9ca3af}
   .dots{text-align:center;color:var(--sub);font-size:12px;margin-top:6px}
-  .detail{padding:14px 16px calc(18px + env(safe-area-inset-bottom))}
+  .detail{padding:14px 16px 18px}
   .detail h2{margin:4px 0 4px;font-size:20px}
   .detail .p{font-size:26px;font-weight:800;color:var(--red);margin:6px 0 10px}
-  .box{border:1px solid var(--line);border-radius:12px;margin-top:14px;overflow:hidden}
-  .box h3{margin:0;font-size:15px;padding:12px 14px;background:#f9fafb;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
-  .box h3 small{font-weight:400;color:var(--sub);font-size:12px}
+  .sbox{border:1px solid var(--line);border-radius:12px;margin-top:14px;overflow:hidden}
+  .sbox > h3{margin:0;font-size:15px;padding:12px 14px;background:#f9fafb;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;cursor:pointer}
+  .sbox > h3 small{font-weight:400;color:var(--sub);font-size:12px}
+  .sbox .inner{padding:10px}
+  .sbox .inner .acc-group h3{font-size:14px;margin:8px 4px 8px}
+  .sbox .acc-list{grid-template-columns:1fr}
   table{width:100%;border-collapse:collapse;font-size:13.5px}
   td{padding:9px 14px;border-bottom:1px solid #f1f2f4;vertical-align:top}
   td:first-child{color:var(--sub);width:42%}
   tr:last-child td{border-bottom:0}
   td.bad{color:var(--red);font-weight:700}
   .note{font-size:12.5px;color:var(--sub);line-height:1.7;padding:12px 14px}
-  .stickyAct{position:sticky;bottom:0;background:#fff;padding:12px 16px calc(12px + env(safe-area-inset-bottom));border-top:1px solid var(--line);display:flex;gap:8px}
+  .stickyAct{position:sticky;bottom:0;background:#fff;padding:12px 16px calc(12px + env(safe-area-inset-bottom));border-top:1px solid var(--line);display:flex;gap:8px;flex-direction:column}
+  .stickyAct .row2{display:flex;gap:8px}
+  .stickyAct .tot{font-size:13px;color:var(--sub);text-align:center}
   .viewer{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:60;display:none;align-items:center;justify-content:center}
   .viewer.show{display:flex}
   .viewer img{max-width:100%;max-height:100%}
 
-  footer{text-align:center;color:var(--sub);font-size:12px;padding:20px 16px 50px;line-height:1.8}
+  footer{text-align:center;color:var(--sub);font-size:12px;padding:20px 16px 120px;line-height:1.8}
 </style>
 </head>
 <body>
 
 <header class="hero">
   <div class="wrap">
-    <h1>中古機現貨</h1>
-    <p>楠梓店・德賢店 現貨，上架前逐項驗機，附實機照片與檢測報告。<br>看中哪一台，按「LINE 詢問」由門市真人為您服務。</p>
+    <h1>復原者 線上逛逛</h1>
+    <p>楠梓店・德賢店 中古機現貨與相容配件。挑好後按「LINE 詢問」，由門市真人為您服務。</p>
     <div class="badges">
-      <span class="badge hl">店保 30 天 + CARE+ 30 天</span>
+      <span class="badge hl">中古機 店保 30 天 + CARE+ 30 天</span>
       <span class="badge">逐項檢測報告</span>
-      <span class="badge">實機照片</span>
+      <span class="badge">依機型配對配件</span>
       <span class="badge">現金・全支付・LINE Pay</span>
     </div>
+    <nav class="tabs">
+      <button data-tab="used" class="on">📱 中古機現貨</button>
+      <button data-tab="acc">🎧 配件選購</button>
+    </nav>
   </div>
 </header>
 
-<div class="toolbar">
-  <div class="wrap">
-    <div class="row">
-      <div class="search">🔍<input id="q" type="search" placeholder="搜尋機型、容量、顏色…"></div>
-      <select id="store">
-        <option value="">全部門市</option>
-        <option value="楠梓店">楠梓店</option>
-        <option value="德賢店">德賢店</option>
-      </select>
-      <select id="sort">
-        <option value="new">最新上架</option>
-        <option value="low">價格低→高</option>
-        <option value="high">價格高→低</option>
-        <option value="battery">電池健康度</option>
-      </select>
+<!-- 中古機 -->
+<section id="tab-used">
+  <div class="toolbar">
+    <div class="wrap">
+      <div class="row">
+        <div class="search">🔍<input id="q" type="search" placeholder="搜尋機型、容量、顏色…"></div>
+        <select id="store">
+          <option value="">全部門市</option>
+          <option value="楠梓店">楠梓店</option>
+          <option value="德賢店">德賢店</option>
+        </select>
+        <select id="sort">
+          <option value="new">最新上架</option>
+          <option value="low">價格低→高</option>
+          <option value="high">價格高→低</option>
+          <option value="battery">電池健康度</option>
+        </select>
+      </div>
+      <div class="chips" id="brands"></div>
     </div>
-    <div class="chips" id="brands"></div>
   </div>
-</div>
+  <main class="wrap">
+    <div class="meta" id="meta">讀取現貨中…</div>
+    <div class="grid" id="grid"><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div></div>
+  </main>
+</section>
 
-<main class="wrap">
-  <div class="meta" id="meta">讀取現貨中…</div>
-  <div class="grid" id="grid"><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div></div>
-</main>
+<!-- 配件 -->
+<section id="tab-acc" hidden>
+  <main class="wrap">
+    <div class="picker">
+      <label>你的手機型號</label>
+      <select id="myModel"><option value="">請選擇手機型號…</option></select>
+    </div>
+    <div class="chips" id="accCats" style="padding-top:12px"></div>
+    <div id="accOut"><p class="meta">選好手機型號，就只會看到相容的配件。</p></div>
+  </main>
+</section>
 
 <footer>
   復原者手機維修・楠梓店 高雄市楠梓區楠梓路10號（0900-038-552）<br>
@@ -133,6 +184,15 @@
   營業時間 週一至週六 11:00–21:00（週日公休）<br>
   照片與檢測報告為驗機當時狀況，外觀以實機為準；價格與庫存以門市確認為準。
 </footer>
+
+<!-- 配件選購底部列 -->
+<div class="bar" id="accBar">
+  <div class="in">
+    <div class="sum">已選 <b id="accN">0</b> 件・合計 <b id="accT">$0</b></div>
+    <span class="seg" id="accStore"><button data-s="楠梓店" class="on">楠梓店</button><button data-s="德賢店">德賢店</button></span>
+    <a class="btn line" id="accSend" href="#" style="flex:none;padding:11px 18px">💬 LINE 詢問</a>
+  </div>
+</div>
 
 <div class="mask" id="mask"></div>
 <div class="sheet" id="sheet"></div>
@@ -149,90 +209,100 @@ const STORES = {
 
 /* =========================================================
    ② 無卡分期（還沒簽約，先關著）
-   簽約後：enabled 改 true，url 填分期商品頁網址。
-   網址裡可以用 {price} {model}，會自動換成那台的售價和機型。
+   簽約後：enabled 改 true，url 填分期商品頁網址；網址裡可以用 {price} {model}
    ========================================================= */
-const INSTALLMENT = {
-  enabled: false,
-  label: "無卡分期",
-  url: ""          // 例："https://分期廠商網址/apply?amount={price}"
-};
+const INSTALLMENT = { enabled: false, label: "無卡分期", url: "" };
 
 /* =========================================================
-   ③ 資料來源：保固系統「中古機庫存」自動整理的現貨清單（唯讀）
-   在 care/stock.html 改庫存、上傳照片、填驗機表後，這裡會跟著更新
+   ③ 資料來源（保固系統自動整理的公開清單，唯讀）
+   中古機：care/stock.html　配件：care/acc.html　機型清單：care/models.js
    ========================================================= */
-const SHOWCASE_URL = "https://firestore.googleapis.com/v1/projects/care-warranty/databases/(default)/documents/settings/used_showcase?key=AIzaSyD04ZMXIt8Oo3hjm5qsMaKiLXYzp_9YKwA";
+const FS = "https://firestore.googleapis.com/v1/projects/care-warranty/databases/(default)/documents/settings/";
+const KEY = "?key=AIzaSyD04ZMXIt8Oo3hjm5qsMaKiLXYzp_9YKwA";
+const MODELS_JS = "https://a0900038552-coder.github.io/-warranty/care/models.js?v=20261125";
 const CACHE_MIN = 3;   // 同一位客人 3 分鐘內重開頁面不重複讀，省資料庫額度
 
-/* 驗機表項目（跟 care/stock.html 的 CHECK_ITEMS 同一份順序；IMEI 不顯示） */
+/* 驗機表項目（跟 care/stock.html 的 CHECK_ITEMS 同順序；IMEI 不顯示） */
 const CHECK = [['ver','銷售國家版本'],['carrier','是否有電信業者鎖定'],['account','iCloud／Google 帳號已退出'],['orig','原廠保固到期時間'],['look','螢幕外觀'],
   ['screen','螢幕功能狀況'],['touch','觸控狀況'],['grade','機身新舊程度'],['bio','臉部／指紋辨識'],['cell','4G／5G 網路'],['wifi','Wi-Fi'],
   ['bt','藍牙'],['fcam','前鏡頭拍照'],['rcam','後鏡頭拍照'],['btn','機身所有按鈕'],['spk','喇叭和聽筒'],['mic','麥克風錄音'],['port','充電口'],['qi','無線充電'],
   ['nfc','NFC'],['prox','距離感應'],['light','自動亮度感應']];
 
 /* ========================================================= */
-let items = [];
+let items = [], accs = [], M = null;
 let state = { q:"", brand:"全部", store:"", sort:"new" };
+let accState = { model: "", cat: "全部", picked: new Set(), store: "楠梓店" };
+let detailPicked = new Set();
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const fmt = n => "$" + Number(n).toLocaleString("zh-TW");
 const img = (id, w) => "https://lh3.googleusercontent.com/d/" + encodeURIComponent(id) + "=w" + w;
 const bat = b => b ? String(b).replace(/%$/, "") : "";
+const ls = { get(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }, set(k,v){ try{ localStorage.setItem(k,v); }catch(e){} } };
 
 function brandOf(m){
+  const found = M && M.findModel(m); if (found) return found.brand;
   const s = String(m||"");
   if (/iphone/i.test(s)) return "iPhone";
   if (/ipad/i.test(s)) return "iPad";
-  if (/galaxy|samsung|三星|^s\d|^a\d|^z\s?(flip|fold)|^note/i.test(s)) return "Samsung";
+  if (/galaxy|samsung|三星/i.test(s)) return "Samsung";
   if (/pixel|google/i.test(s)) return "Google";
-  if (/redmi|xiaomi|小米|poco/i.test(s)) return "小米";
-  if (/oppo|reno|find/i.test(s)) return "OPPO";
-  if (/vivo/i.test(s)) return "vivo";
-  if (/sony|xperia/i.test(s)) return "Sony";
-  if (/asus|zenfone|rog/i.test(s)) return "ASUS";
-  if (/watch/i.test(s)) return "手錶";
   return "其他";
 }
 
-async function load(){
-  let json = null;
-  try{
-    const c = JSON.parse(sessionStorage.getItem("gmf_showcase") || "null");
-    if (c && Date.now() - c.t < CACHE_MIN*60000) json = c.json;
-  }catch(e){}
-  if (json == null){
-    try{
-      const r = await fetch(SHOWCASE_URL);
-      if (!r.ok) throw new Error("HTTP " + r.status);
-      const d = await r.json();
-      json = d.fields?.json?.stringValue || "[]";
-      try{ sessionStorage.setItem("gmf_showcase", JSON.stringify({ t: Date.now(), json })); }catch(e){}
-    }catch(e){
-      console.warn("讀取現貨失敗", e);
-      $("#meta").textContent = "";
-      $("#grid").innerHTML = `<div class="empty">現貨清單暫時讀不到，請稍後再試<br>或直接 <a href="${lineUrl("楠梓店","想詢問目前有哪些中古機")}">LINE 詢問門市</a></div>`;
-      return;
-    }
-  }
-  try{ items = JSON.parse(json) || []; }catch(e){ items = []; }
-  items.forEach((p,i) => { p._i = i; p._brand = brandOf(p.model); });
-  renderBrands(); render();
-  const m = location.hash.match(/^#item=(.+)$/);
-  if (m) { const p = items.find(x => String(x.id) === decodeURIComponent(m[1])); if (p) openItem(p); }
+async function readDoc(name){
+  const ck = "gmf_" + name;
+  try{ const c = JSON.parse(sessionStorage.getItem(ck) || "null"); if (c && Date.now() - c.t < CACHE_MIN*60000) return JSON.parse(c.json); }catch(e){}
+  const r = await fetch(FS + name + KEY);
+  if (r.status === 404) return [];
+  if (!r.ok) throw new Error("HTTP " + r.status);
+  const d = await r.json(), json = d.fields?.json?.stringValue || "[]";
+  try{ sessionStorage.setItem(ck, JSON.stringify({ t: Date.now(), json })); }catch(e){}
+  return JSON.parse(json);
 }
 
+async function load(){
+  const [mRes, uRes, aRes] = await Promise.allSettled([import(MODELS_JS), readDoc("used_showcase"), readDoc("acc_showcase")]);
+  M = mRes.status === "fulfilled" ? mRes.value : null;
+  accs = aRes.status === "fulfilled" ? aRes.value : [];
+  if (uRes.status !== "fulfilled"){
+    console.warn("讀取現貨失敗", uRes.reason);
+    $("#meta").textContent = "";
+    $("#grid").innerHTML = `<div class="empty">現貨清單暫時讀不到，請稍後再試<br>或直接 <a href="${lineUrl("楠梓店","想詢問目前有哪些中古機")}">LINE 詢問門市</a></div>`;
+  } else {
+    items = uRes.value || [];
+    items.forEach((p,i) => { p._i = i; p._m = M ? M.findModel(p.model) : null; p._brand = brandOf(p.model); });
+    renderBrands(); render();
+  }
+  setupAcc();
+  route();
+}
+
+/* ───────── 分頁 ───────── */
+document.querySelectorAll(".tabs button").forEach(b => b.onclick = () => { location.hash = b.dataset.tab === "acc" ? "acc" : ""; route(); });
+function route(){
+  const h = location.hash;
+  const tab = h.startsWith("#acc") ? "acc" : "used";
+  document.querySelectorAll(".tabs button").forEach(b => b.classList.toggle("on", b.dataset.tab === tab));
+  $("#tab-used").hidden = tab !== "used"; $("#tab-acc").hidden = tab !== "acc";
+  $("#accBar").classList.toggle("show", tab === "acc" && accState.picked.size > 0);
+  const m = h.match(/^#item=(.+)$/);
+  if (m && items.length) { const p = items.find(x => String(x.id) === decodeURIComponent(m[1])); if (p) openItem(p); }
+  const am = h.match(/^#acc=(.+)$/);
+  if (am) { const name = decodeURIComponent(am[1]); if ([...$("#myModel").options].some(o => o.value === name)) { $("#myModel").value = name; accState.model = name; renderAcc(); } }
+}
+window.addEventListener("hashchange", () => { if (!/^#item=/.test(location.hash)) route(); });
+
+/* ───────── 中古機 ───────── */
 function renderBrands(){
-  const order = ["iPhone","iPad","Samsung","Google","小米","OPPO","vivo","Sony","ASUS","手錶","其他"];
+  const order = ["iPhone","iPad","Samsung","Google","其他"];
   const have = new Set(items.map(p=>p._brand));
   const brands = ["全部", ...order.filter(b=>have.has(b))];
   $("#brands").innerHTML = brands.map(b=>`<button class="chip ${b===state.brand?"on":""}" data-b="${esc(b)}">${esc(b)}</button>`).join("");
   $("#brands").querySelectorAll(".chip").forEach(el=>el.onclick=()=>{ state.brand=el.dataset.b; renderBrands(); render(); });
 }
-
 function specs(p){
-  const c = p.check || {};
-  const out = [];
+  const c = p.check || {}, out = [];
   if (p.color) out.push(p.color);
   const b = bat(p.battery || c.battery); if (b) out.push("電池 " + b + "%");
   if (p.cond) out.push(p.cond);
@@ -241,23 +311,19 @@ function specs(p){
   if (p.cable) out.push("原廠線");
   return out;
 }
-
 function render(){
   const q = state.q.toLowerCase();
   let list = items.filter(p=>{
     if (state.brand!=="全部" && p._brand!==state.brand) return false;
     if (state.store && p.branch!==state.store) return false;
-    if (q){
-      const hay = [p.model,p.color,p.cond,p.acc,p.branch].join(" ").toLowerCase();
-      if (!q.split(/\s+/).every(w=>hay.includes(w))) return false;
-    }
+    if (q){ const hay = [p.model,p.color,p.cond,p.acc,p.branch].join(" ").toLowerCase(); if (!q.split(/\s+/).every(w=>hay.includes(w))) return false; }
     return true;
   });
   list.sort((a,b)=>{
     if (state.sort==="low") return a.price-b.price;
     if (state.sort==="high") return b.price-a.price;
     if (state.sort==="battery") return (Number(bat(b.battery||b.check?.battery))||0)-(Number(bat(a.battery||a.check?.battery))||0);
-    return a._i-b._i;   // 清單本來就是新到舊
+    return a._i-b._i;
   });
   $("#meta").textContent = `共 ${list.length} 台現貨`;
   if (!list.length){
@@ -266,6 +332,7 @@ function render(){
   }
   $("#grid").innerHTML = list.map(p=>{
     const ph = (p.photos||[]).filter(Boolean);
+    const nAcc = p._m ? accs.filter(a => M.fits(a, p._m)).length : 0;
     return `
     <div class="card" data-i="${p._i}">
       <div class="cover" ${ph[0]?`style="background-image:url('${img(ph[0],600)}')"`:""}>
@@ -275,7 +342,7 @@ function render(){
       </div>
       <div class="body">
         <div class="name">${esc(p.model)}</div>
-        <div class="specs">${specs(p).map(s=>`<span class="spec">${esc(s)}</span>`).join("")}</div>
+        <div class="specs">${specs(p).map(s=>`<span class="spec">${esc(s)}</span>`).join("")}${nAcc?`<span class="spec">🎧 ${nAcc} 項相容配件</span>`:""}</div>
         <div class="price">${fmt(p.price)}</div>
       </div>
       <div class="actions">
@@ -288,7 +355,7 @@ function render(){
     const p = items[Number(el.dataset.i)];
     el.onclick = e => {
       const act = e.target.closest("[data-act]")?.dataset.act;
-      if (act === "line") { e.stopPropagation(); askLine(p); return; }
+      if (act === "line") { e.stopPropagation(); track(p.branch); location.href = lineUrl(p.branch, interestText(p, [])); return; }
       openItem(p);
     };
   });
@@ -296,20 +363,21 @@ function render(){
 
 function checkTable(p){
   const c = p.check;
-  if (!c) return `<div class="box"><h3>檢測報告</h3><div class="note">這台的檢測報告整理中，到店時會現場驗機給您看。</div></div>`;
+  if (!c) return `<div class="sbox"><h3>檢測報告</h3><div class="note">這台的檢測報告整理中，到店時會現場驗機給您看。</div></div>`;
   const rows = [];
   const b = bat(c.battery || p.battery); if (b) rows.push(["電池健康度", b + "%"]);
   CHECK.forEach(([k,l]) => { if (c[k]) rows.push([l, c[k]]); });
-  return `<div class="box"><h3>檢測報告${c.date?`<small>驗機日期 ${esc(c.date)}</small>`:""}</h3>
+  return `<div class="sbox"><h3>檢測報告${c.date?`<small>驗機日期 ${esc(c.date)}</small>`:""}</h3>
     <table>${rows.map(([l,v])=>`<tr><td>${esc(l)}</td><td class="${v==="異常"?"bad":""}">${esc(v)}</td></tr>`).join("")}</table></div>`;
 }
 
+let curItem = null;
 function openItem(p){
+  curItem = p; detailPicked = new Set();
   const ph = (p.photos||[]).filter(Boolean);
   const days = Number(p.check?.days) || 30;
   const extra = [p.waterproof?"氣密正常":"", p.box?"盒裝":"", p.cable?"原廠線":"", p.acc].filter(Boolean).join("・");
-  const pay = INSTALLMENT.enabled && INSTALLMENT.url
-    ? `<a class="btn pay" href="${esc(INSTALLMENT.url.replace("{price}", encodeURIComponent(p.price)).replace("{model}", encodeURIComponent(p.model)))}" target="_blank" rel="noopener">💳 ${esc(INSTALLMENT.label)}</a>` : "";
+  const fitAccs = p._m ? accs.filter(a => M.fits(a, p._m)) : [];
   $("#sheet").innerHTML = `
     <div class="close"><button onclick="closeItem()" aria-label="關閉">✕</button></div>
     <div class="gallery" id="gal">${ph.length ? ph.map((id,i)=>`<img src="${img(id,1000)}" data-full="${img(id,1600)}" alt="${esc(p.model)} 照片 ${i+1}" loading="${i?"lazy":"eager"}">`).join("") : `<div class="noimg">照片整理中</div>`}</div>
@@ -320,17 +388,17 @@ function openItem(p){
       <div class="specs">${specs(p).map(s=>`<span class="spec">${esc(s)}</span>`).join("")}</div>
       <div class="p">${fmt(p.price)}</div>
       ${extra?`<div class="note" style="padding:0">附件：${esc(extra)}</div>`:""}
+      ${fitAccs.length ? `<div class="sbox"><h3>🎧 推薦相容配件（${fitAccs.length}）<small>勾選後一起帶入 LINE</small></h3><div class="inner" id="dAcc">${accGroups(fitAccs, detailPicked)}</div></div>` : ""}
       ${checkTable(p)}
-      <div class="box"><h3>保固與購買方式</h3><div class="note">
+      <div class="sbox"><h3>保固與購買方式</h3><div class="note">
         ・本店保固 ${days} 天，加入 LINE 好友再享 CARE+ 延長 30 天<br>
         ・按「LINE 詢問」由門市真人回覆，保留方式、贈品、付款都在 LINE 說明<br>
         ・限到店取機，取機時請攜帶身分證件，現場驗機確認後交機
       </div></div>
     </div>
-    <div class="stickyAct">
-      ${pay}
-      <a class="btn line" href="${lineUrl(p.branch, interestText(p))}" onclick="track('${esc(p.branch)}')">💬 LINE 詢問這台</a>
-    </div>`;
+    <div class="stickyAct" id="dAct"></div>`;
+  drawDetailAct();
+  if (fitAccs.length) bindAcc($("#dAcc"), detailPicked, () => drawDetailAct());
   $("#mask").classList.add("show"); $("#sheet").classList.add("show");
   $("#sheet").scrollTop = 0;
   try{ history.replaceState(null, "", "#item=" + encodeURIComponent(p.id)); }catch(e){}
@@ -341,23 +409,100 @@ function openItem(p){
   }, { passive:true });
   gal.querySelectorAll("img").forEach(im => im.onclick = () => { $("#viewImg").src = im.dataset.full; $("#viewer").classList.add("show"); });
 }
+function drawDetailAct(){
+  const p = curItem, picked = accs.filter(a => detailPicked.has(a.id));
+  const addSum = picked.reduce((s,a)=>s+Number(a.price||0),0);
+  const pay = INSTALLMENT.enabled && INSTALLMENT.url
+    ? `<a class="btn pay" href="${esc(INSTALLMENT.url.replace("{price}", encodeURIComponent(p.price)).replace("{model}", encodeURIComponent(p.model)))}" target="_blank" rel="noopener">💳 ${esc(INSTALLMENT.label)}</a>` : "";
+  $("#dAct").innerHTML = `
+    ${picked.length ? `<div class="tot">手機 ${fmt(p.price)} ＋ 配件 ${picked.length} 件 ${fmt(addSum)} ＝ <b style="color:var(--red)">${fmt(Number(p.price)+addSum)}</b></div>` : ""}
+    <div class="row2">${pay}<a class="btn line" href="${lineUrl(p.branch, interestText(p, picked))}" onclick="track('${esc(p.branch)}')">💬 LINE 詢問這台${picked.length?`＋${picked.length} 件配件`:""}</a></div>`;
+}
 function closeItem(){
-  $("#mask").classList.remove("show"); $("#sheet").classList.remove("show");
+  $("#mask").classList.remove("show"); $("#sheet").classList.remove("show"); curItem = null;
   try{ history.replaceState(null, "", location.pathname + location.search); }catch(e){}
 }
 $("#mask").onclick = closeItem;
 $("#viewer").onclick = () => $("#viewer").classList.remove("show");
 
-/* LINE 訊息格式跟 LINE 卡片的「先問問題」一樣，機器人會自動回覆門市地址電話，店員再接手 */
-function interestText(p){
+/* ───────── 配件 ───────── */
+function accGroups(list, picked){
+  const cats = (M?.CATS || []).concat([...new Set(list.map(a=>a.cat))].filter(c => !(M?.CATS || []).includes(c)));
+  return cats.map(c => {
+    const g = list.filter(a => a.cat === c); if (!g.length) return "";
+    return `<div class="acc-group"><h3>${esc(c)} <small>${g.length} 項相容</small></h3><div class="acc-list">${g.map(a => `
+      <div class="acc ${picked.has(a.id)?"on":""}" data-a="${esc(a.id)}">
+        <span class="box">${picked.has(a.id)?"✓":""}</span>
+        ${a.photos?.[0] ? `<img src="${img(a.photos[0],240)}" alt="" loading="lazy" data-full="${img(a.photos[0],1200)}">` : `<div class="noimg">🎧</div>`}
+        <div class="info"><div class="nm">${esc(a.name)}</div><div class="sub">${esc([a.desc, a.avail === "現貨" ? "門市現貨" : "可調貨・請 LINE 確認"].filter(Boolean).join("・"))}</div></div>
+        <div class="px">${fmt(a.price)}</div>
+      </div>`).join("")}</div></div>`;
+  }).join("");
+}
+function bindAcc(root, picked, onChange){
+  root.onclick = e => {
+    const im = e.target.closest("img[data-full]");
+    if (im && e.target === im) { $("#viewImg").src = im.dataset.full; $("#viewer").classList.add("show"); return; }
+    const el = e.target.closest("[data-a]"); if (!el) return;
+    const id = el.dataset.a;
+    picked.has(id) ? picked.delete(id) : picked.add(id);
+    el.classList.toggle("on", picked.has(id)); el.querySelector(".box").textContent = picked.has(id) ? "✓" : "";
+    onChange();
+  };
+}
+function setupAcc(){
+  const sel = $("#myModel");
+  if (!M) { $("#accOut").innerHTML = `<p class="meta">配件資料暫時讀不到，請稍後再試，或直接 <a href="${lineUrl("楠梓店","我想預訂配件")}">LINE 詢問</a>。</p>`; return; }
+  sel.innerHTML = `<option value="">請選擇手機型號…</option>` + M.BRANDS.map(b => `<optgroup label="${esc(b)}">${M.MODELS.filter(m=>m.brand===b).map(m=>`<option>${esc(m.name)}</option>`).join("")}</optgroup>`).join("");
+  const saved = ls.get("gmf_model"); if (saved && M.MODELS.some(m=>m.name===saved)) { sel.value = saved; accState.model = saved; }
+  sel.onchange = () => { accState.model = sel.value; accState.cat = "全部"; ls.set("gmf_model", sel.value); renderAcc(); };
+  document.querySelectorAll("#accStore button").forEach(b => b.onclick = () => { accState.store = b.dataset.s; document.querySelectorAll("#accStore button").forEach(x=>x.classList.toggle("on", x===b)); drawAccBar(); });
+  renderAcc();
+}
+function renderAcc(){
+  const model = M?.MODELS.find(m => m.name === accState.model);
+  if (!model){ $("#accCats").innerHTML = ""; $("#accOut").innerHTML = `<p class="meta">${accs.length ? "選好手機型號，就只會看到相容的配件。" : "配件陸續上架中，想找什麼可以直接 LINE 詢問。"}</p>`; drawAccBar(); return; }
+  const fit = accs.filter(a => M.fits(a, model));
+  const cats = ["全部", ...M.CATS.filter(c => fit.some(a=>a.cat===c))];
+  if (!cats.includes(accState.cat)) accState.cat = "全部";
+  $("#accCats").innerHTML = cats.map(c=>`<button class="chip ${c===accState.cat?"on":""}" data-c="${esc(c)}">${esc(c)}</button>`).join("");
+  $("#accCats").querySelectorAll(".chip").forEach(el=>el.onclick=()=>{ accState.cat=el.dataset.c; renderAcc(); });
+  const shown = fit.filter(a => accState.cat === "全部" || a.cat === accState.cat);
+  $("#accOut").innerHTML = shown.length
+    ? `<p class="meta">適合 <b>${esc(model.name)}</b> 的配件 ${fit.length} 項，可自由勾選後一起帶入 LINE。</p>` + accGroups(shown, accState.picked)
+    : `<div class="empty">目前沒有 ${esc(model.name)} 的配件上架<br><a href="${lineUrl(accState.store, "我想預訂配件：\n機型：" + model.name + "\n商品：")}">LINE 詢問門市</a>，幫你調貨</div>`;
+  bindAcc($("#accOut"), accState.picked, drawAccBar);
+  drawAccBar();
+}
+function drawAccBar(){
+  const picked = accs.filter(a => accState.picked.has(a.id));
+  const sum = picked.reduce((s,a)=>s+Number(a.price||0),0);
+  $("#accN").textContent = picked.length; $("#accT").textContent = fmt(sum);
+  $("#accBar").classList.toggle("show", !$("#tab-acc").hidden && picked.length > 0);
+  const lines = ["我想預訂配件：", "機型：" + (accState.model || "（未選）"), "商品："];
+  picked.forEach(a => lines.push("・" + a.name + " " + fmt(a.price)));
+  lines.push("合計：" + fmt(sum), "（官網配件選購）");
+  $("#accSend").href = lineUrl(accState.store, lines.join("\n"));
+  $("#accSend").onclick = () => track(accState.store);
+}
+
+/* ───────── LINE ───────── */
+// 中古機訊息格式跟 LINE 卡片「先問問題」一樣（我有興趣：…（分店）$售價），機器人會自動回覆門市資訊，店員再接手
+function interestText(p, picked){
   const label = (p.model + (p.color ? " " + p.color : "")).slice(0, 40);
-  return "我有興趣：" + label + "（" + (p.branch || "楠梓店") + "）$" + p.price + "\n（官網中古機現貨）";
+  const lines = ["我有興趣：" + label + "（" + (p.branch || "楠梓店") + "）$" + p.price];
+  if (picked.length){
+    lines.push("加購配件：");
+    picked.forEach(a => lines.push("・" + a.name + " " + fmt(a.price)));
+    lines.push("配件合計：" + fmt(picked.reduce((s,a)=>s+Number(a.price||0),0)));
+  }
+  lines.push("（官網中古機現貨）");
+  return lines.join("\n");
 }
 function lineUrl(branch, text){
   const s = STORES[branch] || STORES["楠梓店"];
   return "https://line.me/R/oaMessage/" + encodeURIComponent(s.lineId) + "/?" + encodeURIComponent(text);
 }
-function askLine(p){ track(p.branch); location.href = lineUrl(p.branch, interestText(p)); }
 function track(branch){
   try{ window.gtag && gtag("event","line_inquiry",{ store: branch }); }catch(e){}
   try{ window.fbq && fbq("track","Contact",{ content_category:"used_phone" }); }catch(e){}
