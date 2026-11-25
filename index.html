@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>中古機現貨・配件選購｜復原者手機維修</title>
-<meta name="description" content="復原者手機維修 楠梓店・德賢店：中古機現貨附實機照片與檢測報告；依手機型號挑選相容配件，LINE 真人接洽。">
+<title>優質中古機・配件選購｜復原者手機維修</title>
+<meta name="description" content="復原者手機維修 楠梓店・德賢店：優質中古機附實機照片與檢測報告；依手機型號挑選相容配件，LINE 真人接洽。">
 <style>
   :root{
     --bg:#f6f7f9; --card:#fff; --ink:#16181d; --sub:#6b7280; --line:#e5e7eb;
@@ -53,6 +53,10 @@
   .btn.ghost{background:#f3f4f6;color:var(--ink)}
   .btn.line{background:var(--line-green);color:#fff}
   .btn.pay{background:#fff;color:var(--ink);border:1px solid var(--line)}
+  .btn.rec{background:#fff7f7;color:var(--red);border:1.5px dashed #f3b2b2}
+  .phonebox{display:flex;justify-content:space-between;gap:10px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:10px 0 4px;background:#fafafa}
+  .phonebox small{display:block;color:var(--sub);font-size:12px}
+  .phonebox b{font-size:16px}
   .empty{grid-column:1/-1;text-align:center;color:var(--sub);padding:60px 0;line-height:1.8}
   .skeleton{background:linear-gradient(90deg,#eee 25%,#f6f6f6 50%,#eee 75%);background-size:200% 100%;animation:sh 1.2s infinite;border-radius:var(--radius);height:360px}
   @keyframes sh{to{background-position:-200% 0}}
@@ -125,7 +129,7 @@
 <header class="hero">
   <div class="wrap">
     <h1>復原者 線上逛逛</h1>
-    <p>楠梓店・德賢店 中古機現貨與相容配件。挑好後按「LINE 詢問」，由門市真人為您服務。</p>
+    <p>楠梓店・德賢店 優質中古機與相容配件。挑好後按「LINE 詢問」，由門市真人為您服務。</p>
     <div class="badges">
       <span class="badge hl">中古機 店保 30 天 + CARE+ 30 天</span>
       <span class="badge">逐項檢測報告</span>
@@ -133,7 +137,7 @@
       <span class="badge">現金・全支付・LINE Pay</span>
     </div>
     <nav class="tabs">
-      <button data-tab="used" class="on">📱 中古機現貨</button>
+      <button data-tab="used" class="on">📱 優質中古機</button>
       <button data-tab="acc">🎧 配件選購</button>
     </nav>
   </div>
@@ -170,10 +174,11 @@
 <section id="tab-acc" hidden>
   <main class="wrap">
     <div class="picker">
-      <label>你的手機型號</label>
+      <label>① 選擇你的手機型號</label>
       <select id="myModel"><option value="">請選擇手機型號…</option></select>
     </div>
-    <div class="chips" id="accCats" style="padding-top:12px"></div>
+    <div style="font-size:13px;color:var(--sub);margin:14px 2px 0">② 選擇分類</div>
+    <div class="chips" id="accCats" style="padding-top:8px"></div>
     <div id="accOut"><p class="meta">選好手機型號，就只會看到相容的配件。</p></div>
   </main>
 </section>
@@ -219,7 +224,7 @@ const INSTALLMENT = { enabled: false, label: "無卡分期", url: "" };
    ========================================================= */
 const FS = "https://firestore.googleapis.com/v1/projects/care-warranty/databases/(default)/documents/settings/";
 const KEY = "?key=AIzaSyD04ZMXIt8Oo3hjm5qsMaKiLXYzp_9YKwA";
-const MODELS_JS = "https://a0900038552-coder.github.io/-warranty/care/models.js?v=20261125";
+const MODELS_JS = "https://a0900038552-coder.github.io/-warranty/care/models.js?v=20261125b";
 const CACHE_MIN = 3;   // 同一位客人 3 分鐘內重開頁面不重複讀，省資料庫額度
 
 /* 驗機表項目（跟 care/stock.html 的 CHECK_ITEMS 同順序；IMEI 不顯示） */
@@ -338,17 +343,19 @@ function render(){
       <div class="cover" ${ph[0]?`style="background-image:url('${img(ph[0],600)}')"`:""}>
         ${ph[0]?"":`<div class="ph">📱</div>`}
         <span class="tag store">${esc(p.branch||"門市")}</span>
+        ${p.peer?`<span class="tag">同業調貨</span>`:""}
         ${ph.length>1?`<span class="tag cnt">📷 ${ph.length}</span>`:""}
       </div>
       <div class="body">
         <div class="name">${esc(p.model)}</div>
-        <div class="specs">${specs(p).map(s=>`<span class="spec">${esc(s)}</span>`).join("")}${nAcc?`<span class="spec">🎧 ${nAcc} 項相容配件</span>`:""}</div>
+        <div class="specs">${specs(p).map(s=>`<span class="spec">${esc(s)}</span>`).join("")}</div>
         <div class="price">${fmt(p.price)}</div>
       </div>
       <div class="actions">
         <button class="btn ghost" data-act="more">看照片・檢測報告</button>
         <button class="btn line" data-act="line">LINE 詢問</button>
       </div>
+      ${nAcc?`<div class="actions" style="padding-top:0"><button class="btn rec" data-act="acc">🎧 推薦相容配件（${nAcc}）</button></div>`:""}
     </div>`;
   }).join("");
   $("#grid").querySelectorAll(".card").forEach(el=>{
@@ -356,6 +363,7 @@ function render(){
     el.onclick = e => {
       const act = e.target.closest("[data-act]")?.dataset.act;
       if (act === "line") { e.stopPropagation(); track(p.branch); location.href = lineUrl(p.branch, interestText(p, [])); return; }
+      if (act === "acc") { e.stopPropagation(); openAccFor(p); return; }
       openItem(p);
     };
   });
@@ -388,6 +396,7 @@ function openItem(p){
       <div class="specs">${specs(p).map(s=>`<span class="spec">${esc(s)}</span>`).join("")}</div>
       <div class="p">${fmt(p.price)}</div>
       ${extra?`<div class="note" style="padding:0">附件：${esc(extra)}</div>`:""}
+      ${p.peer?`<div class="note" style="padding:6px 0 0">※ 這台為合作同業調貨，到店看機請先 LINE 預約</div>`:""}
       ${fitAccs.length ? `<div class="sbox"><h3>🎧 推薦相容配件（${fitAccs.length}）<small>勾選後一起帶入 LINE</small></h3><div class="inner" id="dAcc">${accGroups(fitAccs, detailPicked)}</div></div>` : ""}
       ${checkTable(p)}
       <div class="sbox"><h3>保固與購買方式</h3><div class="note">
@@ -408,6 +417,23 @@ function openItem(p){
     $("#dots").textContent = `${Math.min(i+1, ph.length)} / ${ph.length}・左右滑動看更多`;
   }, { passive:true });
   gal.querySelectorAll("img").forEach(im => im.onclick = () => { $("#viewImg").src = im.dataset.full; $("#viewer").classList.add("show"); });
+}
+function openAccFor(p){
+  curItem = p; detailPicked = new Set();
+  const fitAccs = p._m ? accs.filter(a => M.fits(a, p._m)) : [];
+  $("#sheet").innerHTML = `
+    <div class="close"><button onclick="closeItem()" aria-label="關閉">✕</button></div>
+    <div class="detail" style="padding-top:0">
+      <span class="badge hl">依機型自動配對</span>
+      <h2 style="margin-top:10px">適合 ${esc(p._m ? p._m.name : p.model)} 的配件</h2>
+      <div class="note" style="padding:0">勾選想要的配件，會跟這台手機一起帶入 LINE。</div>
+      <div class="phonebox"><div><small>目前手機</small><b>${esc(p.model)}</b><small>${esc([p.color, p.branch].filter(Boolean).join("・"))}</small></div><b style="color:var(--red)">${fmt(p.price)}</b></div>
+      <div id="dAcc">${accGroups(fitAccs, detailPicked)}</div>
+    </div>
+    <div class="stickyAct" id="dAct"></div>`;
+  drawDetailAct();
+  bindAcc($("#dAcc"), detailPicked, () => drawDetailAct());
+  $("#mask").classList.add("show"); $("#sheet").classList.add("show"); $("#sheet").scrollTop = 0;
 }
 function drawDetailAct(){
   const p = curItem, picked = accs.filter(a => detailPicked.has(a.id));
@@ -461,16 +487,21 @@ function setupAcc(){
 }
 function renderAcc(){
   const model = M?.MODELS.find(m => m.name === accState.model);
-  if (!model){ $("#accCats").innerHTML = ""; $("#accOut").innerHTML = `<p class="meta">${accs.length ? "選好手機型號，就只會看到相容的配件。" : "配件陸續上架中，想找什麼可以直接 LINE 詢問。"}</p>`; drawAccBar(); return; }
-  const fit = accs.filter(a => M.fits(a, model));
-  const cats = ["全部", ...M.CATS.filter(c => fit.some(a=>a.cat===c))];
+  const fit = model ? accs.filter(a => M.fits(a, model)) : accs;
+  // 分類一律顯示（有相容商品的會標數量）
+  const cats = ["全部", ...M.CATS];
   if (!cats.includes(accState.cat)) accState.cat = "全部";
-  $("#accCats").innerHTML = cats.map(c=>`<button class="chip ${c===accState.cat?"on":""}" data-c="${esc(c)}">${esc(c)}</button>`).join("");
+  $("#accCats").innerHTML = cats.map(c => { const n = c === "全部" ? fit.length : fit.filter(a=>a.cat===c).length;
+    return `<button class="chip ${c===accState.cat?"on":""}" data-c="${esc(c)}">${esc(c)}${n?` ${n}`:""}</button>`; }).join("");
   $("#accCats").querySelectorAll(".chip").forEach(el=>el.onclick=()=>{ accState.cat=el.dataset.c; renderAcc(); });
   const shown = fit.filter(a => accState.cat === "全部" || a.cat === accState.cat);
-  $("#accOut").innerHTML = shown.length
-    ? `<p class="meta">適合 <b>${esc(model.name)}</b> 的配件 ${fit.length} 項，可自由勾選後一起帶入 LINE。</p>` + accGroups(shown, accState.picked)
-    : `<div class="empty">目前沒有 ${esc(model.name)} 的配件上架<br><a href="${lineUrl(accState.store, "我想預訂配件：\n機型：" + model.name + "\n商品：")}">LINE 詢問門市</a>，幫你調貨</div>`;
+  const ask = lineUrl(accState.store, "我想預訂配件：\n機型：" + (model ? model.name : "") + "\n商品：" + (accState.cat !== "全部" ? accState.cat : ""));
+  const what = (model ? model.name + " 的" : "") + (accState.cat !== "全部" ? accState.cat : "配件");
+  $("#accOut").innerHTML = !shown.length
+    ? `<div class="empty">${accs.length ? "目前沒有 " + esc(what) + " 上架" : "配件陸續上架中"}<br><a href="${ask}">LINE 詢問門市</a>，幫你調貨或推薦</div>`
+    : (model
+      ? `<p class="meta">適合 <b>${esc(model.name)}</b> 的配件 ${fit.length} 項，可自由勾選後一起帶入 LINE。</p>`
+      : `<p class="meta">全部配件 ${fit.length} 項・<b>先選手機型號</b>，就只顯示相容的配件</p>`) + accGroups(shown, accState.picked);
   bindAcc($("#accOut"), accState.picked, drawAccBar);
   drawAccBar();
 }
@@ -496,7 +527,7 @@ function interestText(p, picked){
     picked.forEach(a => lines.push("・" + a.name + " " + fmt(a.price)));
     lines.push("配件合計：" + fmt(picked.reduce((s,a)=>s+Number(a.price||0),0)));
   }
-  lines.push("（官網中古機現貨）");
+  lines.push(p.peer ? "（官網優質中古機・同業調貨）" : "（官網優質中古機）");
   return lines.join("\n");
 }
 function lineUrl(branch, text){
