@@ -267,7 +267,7 @@ let detailPicked = new Set();
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const fmt = n => "$" + Number(n).toLocaleString("zh-TW");
-const img = (id, w) => "https://lh3.googleusercontent.com/d/" + encodeURIComponent(id) + "=w" + w;
+const img = (id, w) => /^https?:\/\//.test(id) ? id : "https://lh3.googleusercontent.com/d/" + encodeURIComponent(id) + "=w" + w;
 const bat = b => b ? String(b).replace(/%$/, "") : "";
 const ls = { get(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }, set(k,v){ try{ localStorage.setItem(k,v); }catch(e){} } };
 
