@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>加入 LINE 好友｜復原者手機維修</title>
+<meta name="robots" content="noindex">
+<style>
+  :root{--red:#d71920;--green:#06c755;--ink:#111827;--mute:#6b7280}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;background:#f3f4f6;color:var(--ink);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+  .card{background:#fff;border-radius:20px;max-width:380px;width:100%;padding:28px 22px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.08)}
+  .logo{width:72px;height:72px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-weight:900;font-size:15px;line-height:1.1}
+  h1{font-size:20px;margin:0 0 4px}
+  .sub{color:var(--mute);font-size:14px;margin:0 0 20px}
+  .btn{display:block;width:100%;padding:16px;border-radius:14px;font-size:18px;font-weight:800;text-decoration:none;color:#fff;background:var(--green);margin-top:10px}
+  .btn.alt{background:#fff;color:var(--green);border:2px solid var(--green);font-size:16px;padding:13px}
+  .id{margin-top:18px;background:#f9fafb;border-radius:12px;padding:12px;font-size:15px}
+  .id b{font-size:18px;letter-spacing:.5px}
+  .copy{margin-top:8px;border:0;background:#e5e7eb;border-radius:999px;padding:7px 16px;font:inherit;font-size:14px;cursor:pointer}
+  .tip{margin-top:16px;color:var(--mute);font-size:13px;line-height:1.6;text-align:left}
+  .info{margin-top:14px;font-size:13px;color:var(--mute);line-height:1.7}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">復原者<br>Repair</div>
+  <h1 id="nm">復原者手機維修</h1>
+  <p class="sub">加 LINE 好友，專人幫您報價、預約 😊</p>
+
+  <a class="btn" id="go" href="https://line.me/R/ti/p/%40826ztlds">💬 加入 LINE 好友</a>
+  <a class="btn alt" id="go2" href="https://lin.ee/wGZuE42">沒反應？點這裡再試一次</a>
+
+  <div class="id">或打開 LINE 搜尋 ID<br><b id="lid">@826ztlds</b><br>
+    <button class="copy" id="cp" type="button">複製 LINE ID</button></div>
+
+  <div class="tip">※ 如果按了沒有跳到 LINE：點右上角「⋯」選「在瀏覽器中開啟」，再按一次上面的綠色按鈕。</div>
+  <div class="info" id="info"></div>
+</div>
+<script>
+// 臉書／Messenger 機器人的「LINE 預約／報價」按鈕連到這一頁（?s=nanzi 或 ?s=dexian），
+// 讓客人從一般網頁上的連結跳到 LINE（Messenger 按鈕直接連 LINE 會被擋）
+const STORES = {
+  nanzi:  { name: "復原者手機維修 楠梓店", id: "826ztlds", lin: "https://lin.ee/wGZuE42", addr: "高雄市楠梓區楠梓路10號", tel: "0900-038-552" },
+  dexian: { name: "復原者手機維修 德賢店", id: "347agrda", lin: "https://lin.ee/vRFmP8e", addr: "高雄市楠梓區德賢路258號", tel: "0971-626-883" },
+};
+const s = STORES[new URLSearchParams(location.search).get("s")] || STORES.nanzi;
+document.title = "加入 LINE 好友｜" + s.name;
+document.getElementById("nm").textContent = s.name;
+document.getElementById("go").href = "https://line.me/R/ti/p/%40" + s.id;
+document.getElementById("go2").href = s.lin;
+document.getElementById("lid").textContent = "@" + s.id;
+document.getElementById("info").innerHTML = s.addr + "<br>營業時間 週一～週六 11:00–21:00（週日公休）";
+document.getElementById("cp").onclick = async () => {
+  const b = document.getElementById("cp");
+  try { await navigator.clipboard.writeText("@" + s.id); b.textContent = "已複製 ✓"; }
+  catch (e) { prompt("長按複製 LINE ID", "@" + s.id); }
+};
+</script>
+</body>
+</html>
