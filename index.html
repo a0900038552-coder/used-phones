@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>優質中古機・配件選購｜復原者手機維修</title>
 <meta name="description" content="復原者手機維修 楠梓店・德賢店：優質中古機附實機照片與檢測報告；依手機型號挑選相容配件，LINE 真人接洽。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="復原者 優質中古機・配件選購">
+<meta property="og:description" content="楠梓店・德賢店 優質中古機，逐項驗機、附實機照片與檢測報告；依手機型號挑選相容配件。">
 <style>
   :root{
     --bg:#f6f7f9; --card:#fff; --ink:#16181d; --sub:#6b7280; --line:#e5e7eb;
@@ -54,6 +57,19 @@
   .btn.line{background:var(--line-green);color:#fff}
   .btn.pay{background:#fff;color:var(--ink);border:1px solid var(--line)}
   .btn.rec{background:#fff7f7;color:var(--red);border:1.5px dashed #f3b2b2}
+  .btn.share{background:#fff;color:var(--ink);border:1px solid var(--line)}
+  .lq{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:70;display:none;align-items:center;justify-content:center;padding:16px}
+  .lq.show{display:flex}
+  .lq .in{background:#fff;border-radius:18px;max-width:440px;width:100%;padding:22px 22px 18px;text-align:center;position:relative}
+  .lq .x{position:absolute;top:10px;right:10px;border:0;background:#f3f4f6;border-radius:99px;width:34px;height:34px;font-size:16px;cursor:pointer}
+  .lq h3{margin:4px 0 4px;font-size:18px}
+  .lq .qr{margin:14px auto 6px;width:240px;height:240px;display:flex;align-items:center;justify-content:center}
+  .lq .qr img,.lq .qr canvas{width:240px;height:240px;image-rendering:pixelated}
+  .lq p{margin:6px 0;color:var(--sub);font-size:13px;line-height:1.6}
+  .lq pre{text-align:left;background:#f6f7f9;border-radius:10px;padding:10px 12px;font:12.5px/1.6 inherit;white-space:pre-wrap;max-height:130px;overflow:auto;margin:10px 0}
+  .lq .row2{display:flex;gap:8px;margin-top:10px}
+  #toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:#16181d;color:#fff;padding:10px 16px;border-radius:10px;z-index:80;opacity:0;transition:.2s;pointer-events:none;font-size:14px}
+  #toast.show{opacity:1}
   .phonebox{display:flex;justify-content:space-between;gap:10px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:10px 0 4px;background:#fafafa}
   .phonebox small{display:block;color:var(--sub);font-size:12px}
   .phonebox b{font-size:16px}
@@ -202,14 +218,24 @@
 <div class="mask" id="mask"></div>
 <div class="sheet" id="sheet"></div>
 <div class="viewer" id="viewer"><img id="viewImg" alt="放大照片"></div>
+<div class="lq" id="lq"><div class="in">
+  <button class="x" id="lqX" aria-label="關閉">✕</button>
+  <h3 id="lqT">用手機 LINE 掃描</h3>
+  <p id="lqS"></p>
+  <div class="qr" id="lqQR"></div>
+  <p id="lqH"></p>
+  <pre id="lqMsg"></pre>
+  <div class="row2"><button class="btn ghost" id="lqCopy">📋 複製訊息</button><a class="btn line" id="lqOpen" target="_blank" rel="noopener">開啟官方帳號頁</a></div>
+</div></div>
+<div id="toast"></div>
 
 <script>
 /* =========================================================
    ① 門市 LINE@
    ========================================================= */
 const STORES = {
-  "楠梓店": { lineId: "@826ztlds", tel: "0900038552" },
-  "德賢店": { lineId: "@347agrda", tel: "0971626883" }
+  "楠梓店": { lineId: "@826ztlds", tel: "0900038552", add: "https://lin.ee/wGZuE42" },
+  "德賢店": { lineId: "@347agrda", tel: "0971626883", add: "https://lin.ee/vRFmP8e" }
 };
 
 /* =========================================================
@@ -296,7 +322,7 @@ function route(){
   const am = h.match(/^#acc=(.+)$/);
   if (am) { const name = decodeURIComponent(am[1]); if ([...$("#myModel").options].some(o => o.value === name)) { $("#myModel").value = name; accState.model = name; renderAcc(); } }
 }
-window.addEventListener("hashchange", () => { if (!/^#item=/.test(location.hash)) route(); });
+window.addEventListener("hashchange", () => { if (!/^#item=/.test(location.hash) || !curItem) route(); });
 
 /* ───────── 中古機 ───────── */
 function renderBrands(){
@@ -355,14 +381,15 @@ function render(){
         <button class="btn ghost" data-act="more">看照片・檢測報告</button>
         <button class="btn line" data-act="line">LINE 詢問</button>
       </div>
-      ${nAcc?`<div class="actions" style="padding-top:0"><button class="btn rec" data-act="acc">🎧 推薦相容配件（${nAcc}）</button></div>`:""}
+      <div class="actions" style="padding-top:0">${nAcc?`<button class="btn rec" data-act="acc">🎧 推薦配件（${nAcc}）</button>`:""}<button class="btn share" data-act="share">↗ 分享</button></div>
     </div>`;
   }).join("");
   $("#grid").querySelectorAll(".card").forEach(el=>{
     const p = items[Number(el.dataset.i)];
     el.onclick = e => {
       const act = e.target.closest("[data-act]")?.dataset.act;
-      if (act === "line") { e.stopPropagation(); track(p.branch); location.href = lineUrl(p.branch, interestText(p, [])); return; }
+      if (act === "line") { e.stopPropagation(); track(p.branch); openLine(lineUrl(p.branch, interestText(p, []))); return; }
+      if (act === "share") { e.stopPropagation(); shareItem(p); return; }
       if (act === "acc") { e.stopPropagation(); openAccFor(p); return; }
       openItem(p);
     };
@@ -442,7 +469,7 @@ function drawDetailAct(){
     ? `<a class="btn pay" href="${esc(INSTALLMENT.url.replace("{price}", encodeURIComponent(p.price)).replace("{model}", encodeURIComponent(p.model)))}" target="_blank" rel="noopener">💳 ${esc(INSTALLMENT.label)}</a>` : "";
   $("#dAct").innerHTML = `
     ${picked.length ? `<div class="tot">手機 ${fmt(p.price)} ＋ 配件 ${picked.length} 件 ${fmt(addSum)} ＝ <b style="color:var(--red)">${fmt(Number(p.price)+addSum)}</b></div>` : ""}
-    <div class="row2">${pay}<a class="btn line" href="${lineUrl(p.branch, interestText(p, picked))}" onclick="track('${esc(p.branch)}')">💬 LINE 詢問這台${picked.length?`＋${picked.length} 件配件`:""}</a></div>`;
+    <div class="row2">${pay}<button class="btn share" style="flex:none;padding:11px 14px" onclick="shareItem(curItem)">↗ 分享</button><a class="btn line" href="${lineUrl(p.branch, interestText(p, picked))}" onclick="track('${esc(p.branch)}')">💬 LINE 詢問這台${picked.length?`＋${picked.length} 件配件`:""}</a></div>`;
 }
 function closeItem(){
   $("#mask").classList.remove("show"); $("#sheet").classList.remove("show"); curItem = null;
@@ -534,6 +561,54 @@ function lineUrl(branch, text){
   const s = STORES[branch] || STORES["楠梓店"];
   return "https://line.me/R/oaMessage/" + encodeURIComponent(s.lineId) + "/?" + encodeURIComponent(text);
 }
+/* ───────── 分享 ───────── */
+function itemUrl(p){ return location.origin + location.pathname + "#item=" + encodeURIComponent(p.id); }
+async function shareItem(p){
+  const url = itemUrl(p), title = p.model + " " + fmt(p.price) + "｜復原者 優質中古機";
+  const text = [p.model, specs(p).join("・"), fmt(p.price), (p.branch || "") + " 現貨，附實機照片與檢測報告"].filter(Boolean).join("\n");
+  if (navigator.share) { try { await navigator.share({ title, text, url }); return; } catch (e) { if (e.name === "AbortError") return; } }
+  try { await navigator.clipboard.writeText(title + "\n" + url); toast("已複製連結，可以貼給朋友"); }
+  catch (e) { prompt("複製這個連結分享給朋友：", url); }
+}
+function toast(m){ const t = $("#toast"); t.textContent = m; t.classList.add("show"); clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove("show"), 2200); }
+
+/* ───────── LINE：手機直接開 LINE；電腦跳出 QR Code 用手機掃 ───────── */
+const IS_MOBILE = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) || (navigator.maxTouchPoints > 1 && /Mac/.test(navigator.platform));
+function openLine(url){ if (IS_MOBILE) { location.href = url; return; } showLineQR(url); }
+document.addEventListener("click", e => {
+  const a = e.target.closest('a[href^="https://line.me/R/oaMessage/"]');
+  if (!a || IS_MOBILE) return;
+  e.preventDefault(); showLineQR(a.href);
+}, true);
+let qrLib = null;
+function loadQR(){
+  if (qrLib) return qrLib;
+  qrLib = new Promise((res, rej) => { const sc = document.createElement("script"); sc.src = "https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"; sc.onload = () => res(window.qrcode); sc.onerror = rej; document.head.appendChild(sc); });
+  return qrLib;
+}
+async function showLineQR(url){
+  const id = decodeURIComponent(url.split("/oaMessage/")[1].split("/")[0]);
+  const store = Object.entries(STORES).find(([, s]) => s.lineId === id) || ["楠梓店", STORES["楠梓店"]];
+  const msg = decodeURIComponent(url.split("/?")[1] || "");
+  // 訊息短的話，QR Code 直接帶訊息（掃了就打開聊天室、訊息已填好）；太長掃不動，改掃加好友＋貼上複製的訊息
+  const direct = url.length <= 900;
+  $("#lqT").textContent = "用手機 LINE 掃描";
+  $("#lqS").innerHTML = `${esc(store[0])} 官方帳號（${esc(id)}）`;
+  $("#lqH").innerHTML = direct ? "掃描後會打開聊天室，下面的訊息已經幫你填好，按送出就可以。" : "掃描加入好友後，按「複製訊息」貼到聊天室送出。";
+  $("#lqMsg").textContent = msg;
+  $("#lqOpen").href = "https://page.line.me/" + id.replace(/^@/, "") + "?openQrModal=true";
+  $("#lqQR").innerHTML = "產生中…";
+  $("#lq").classList.add("show");
+  try {
+    const qrcode = await loadQR();
+    const q = qrcode(0, "L"); q.addData(direct ? url : store[1].add, "Byte"); q.make();
+    $("#lqQR").innerHTML = q.createImgTag(6, 8);
+  } catch (e) { $("#lqQR").innerHTML = `<p>QR Code 載入失敗，請按下方「開啟官方帳號頁」</p>`; }
+}
+$("#lqX").onclick = () => $("#lq").classList.remove("show");
+$("#lq").onclick = e => { if (e.target.id === "lq") $("#lq").classList.remove("show"); };
+$("#lqCopy").onclick = async () => { try { await navigator.clipboard.writeText($("#lqMsg").textContent); toast("訊息已複製"); } catch (e) { toast("請手動選取訊息複製"); } };
+
 function track(branch){
   try{ window.gtag && gtag("event","line_inquiry",{ store: branch }); }catch(e){}
   try{ window.fbq && fbq("track","Contact",{ content_category:"used_phone" }); }catch(e){}
@@ -542,7 +617,7 @@ function track(branch){
 $("#q").addEventListener("input", e=>{ state.q=e.target.value.trim(); render(); });
 $("#store").addEventListener("change", e=>{ state.store=e.target.value; render(); });
 $("#sort").addEventListener("change", e=>{ state.sort=e.target.value; render(); });
-document.addEventListener("keydown", e=>{ if (e.key==="Escape"){ $("#viewer").classList.remove("show"); closeItem(); } });
+document.addEventListener("keydown", e=>{ if (e.key==="Escape"){ $("#lq").classList.remove("show"); $("#viewer").classList.remove("show"); closeItem(); } });
 
 load();
 </script>
