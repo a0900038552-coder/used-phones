@@ -265,24 +265,25 @@ const CHECK = [['ver','銷售國家版本'],['carrier','是否有電信業者鎖
 /* ========================================================= */
 let items = [], accs = [], M = null;
 let state = { q:"", brand:"全部", store:"", sort:"new" };
-// 配件滿額折：只算配件金額（不含中古機），單筆只折一次。要關掉把 enabled 改 false
+// 配件滿額折：只算配件金額（不含中古機），每滿 min 折 off（累計）。要關掉把 enabled 改 false
 const PROMO = { enabled: true, min: 1000, off: 100 };
 function promoOf(sum){
   if (!PROMO.enabled || !sum) return { off: 0, need: 0, pay: sum };
-  if (sum >= PROMO.min) return { off: PROMO.off, need: 0, pay: sum - PROMO.off };
-  return { off: 0, need: PROMO.min - sum, pay: sum };
+  const off = Math.floor(sum / PROMO.min) * PROMO.off;
+  const need = PROMO.min - (sum % PROMO.min);
+  return { off, need, pay: sum - off };
 }
 function promoHint(sum){
   if (!PROMO.enabled || !sum) return "";
   const r = promoOf(sum);
-  return r.off ? `<span class="promo ok">🎉 已享滿額折 −${fmt(r.off)}，配件應付 ${fmt(r.pay)}</span>`
+  return r.off ? `<span class="promo ok">🎉 已折 −${fmt(r.off)}，配件應付 ${fmt(r.pay)}・再買 ${fmt(r.need)} 再折 ${fmt(PROMO.off)}</span>`
                : `<span class="promo">再買 ${fmt(r.need)} 現折 ${fmt(PROMO.off)}</span>`;
 }
 function promoLines(sum){
   const r = promoOf(sum);
   return r.off ? ["滿額折：−" + fmt(r.off), "配件應付：" + fmt(r.pay)] : [];
 }
-const PROMO_TAG = () => PROMO.enabled ? `<div class="promoTag">🎁 配件滿 ${fmt(PROMO.min)} 現折 ${fmt(PROMO.off)}（每筆限折一次）</div>` : "";
+const PROMO_TAG = () => PROMO.enabled ? `<div class="promoTag">🎁 配件每滿 ${fmt(PROMO.min)} 現折 ${fmt(PROMO.off)}，買越多折越多</div>` : "";
 let accState = { model: "", cat: "全部", picked: new Set(), store: "楠梓店" };
 let detailPicked = new Set();
 const $ = s => document.querySelector(s);
