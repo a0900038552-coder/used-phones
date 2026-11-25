@@ -255,6 +255,12 @@ const FS = "https://firestore.googleapis.com/v1/projects/care-warranty/databases
 const KEY = "?key=AIzaSyD04ZMXIt8Oo3hjm5qsMaKiLXYzp_9YKwA";
 const MODELS_JS = "https://a0900038552-coder.github.io/-warranty/care/models.js?v=20261125b";
 const CACHE_MIN = 3;   // 同一位客人 3 分鐘內重開頁面不重複讀，省資料庫額度
+// 先讀保固系統機器人的快取（每 5 分鐘才讀一次資料庫，訪客／爬蟲再多都不吃 Firebase 額度）；快取掛了才直接讀資料庫
+const SHOWCASE_URL = "https://script.google.com/macros/s/AKfycbxBK7c2Oledgo-jT-kRnueuU8grZxVinuocyp2iLI8u-c5Q94fZSeiemH0UkeAqdjfTlw/exec?action=showcase";
+let showcaseP = null;
+function readShowcase(){
+  return showcaseP ||= fetch(SHOWCASE_URL).then(r => r.json()).then(d => { if (!d.ok) throw new Error(d.error || "快取讀取失敗"); return d; });
+}
 
 /* 驗機表項目（跟 care/stock.html 的 CHECK_ITEMS 同順序；IMEI 不顯示） */
 const CHECK = [['ver','銷售國家版本'],['carrier','是否有電信業者鎖定'],['account','iCloud／Google 帳號已退出'],['orig','原廠保固到期時間'],['look','螢幕外觀'],
@@ -306,10 +312,15 @@ function brandOf(m){
 async function readDoc(name){
   const ck = "gmf_" + name;
   try{ const c = JSON.parse(sessionStorage.getItem(ck) || "null"); if (c && Date.now() - c.t < CACHE_MIN*60000) return JSON.parse(c.json); }catch(e){}
-  const r = await fetch(FS + name + KEY);
-  if (r.status === 404) return [];
-  if (!r.ok) throw new Error("HTTP " + r.status);
-  const d = await r.json(), json = d.fields?.json?.stringValue || "[]";
+  let json;
+  try{ const d = await readShowcase(); json = name === "used_showcase" ? d.used : d.acc; }
+  catch(e){
+    console.warn("快取讀不到，改直接讀資料庫", e);
+    const r = await fetch(FS + name + KEY);
+    if (r.status === 404) return [];
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    const d = await r.json(); json = d.fields?.json?.stringValue || "[]";
+  }
   try{ sessionStorage.setItem(ck, JSON.stringify({ t: Date.now(), json })); }catch(e){}
   return JSON.parse(json);
 }
