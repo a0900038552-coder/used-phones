@@ -4,26 +4,25 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>中古機現貨｜復原者手機維修</title>
-<meta name="description" content="復原者手機維修 中古機現貨，上架前完整檢測，店保 30 天，可加入 LINE@ 真人詢問與預約。">
+<meta name="description" content="復原者手機維修 楠梓店・德賢店 中古機現貨，上架前完整驗機、附檢測報告與實機照片，LINE 真人接洽。">
 <style>
   :root{
     --bg:#f6f7f9; --card:#fff; --ink:#16181d; --sub:#6b7280; --line:#e5e7eb;
-    --accent:#111827; --gold:#b8892d; --line-green:#06c755; --danger:#dc2626;
-    --radius:14px;
+    --accent:#111827; --red:#d71920; --line-green:#06c755; --gold:#b8892d; --radius:14px;
   }
   *{box-sizing:border-box}
   body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
-  a{color:inherit}
-  header.hero{background:#fff;border-bottom:1px solid var(--line);padding:28px 16px 20px}
+  button{font-family:inherit}
   .wrap{max-width:1120px;margin:0 auto;padding:0 16px}
+  header.hero{background:#fff;border-bottom:1px solid var(--line);padding:26px 0 18px}
   .hero h1{margin:0 0 6px;font-size:26px;letter-spacing:.5px}
   .hero p{margin:0;color:var(--sub);font-size:14px;line-height:1.6}
   .badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
   .badge{font-size:12px;padding:5px 10px;border-radius:999px;background:#f3f4f6;color:#374151}
-  .badge.gold{background:#fbf5e8;color:var(--gold)}
+  .badge.hl{background:#fdecec;color:var(--red)}
 
   .toolbar{position:sticky;top:0;z-index:20;background:rgba(246,247,249,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:12px 0}
-  .toolbar .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
   .search{flex:1 1 220px;display:flex;align-items:center;background:#fff;border:1px solid var(--line);border-radius:10px;padding:0 12px}
   .search input{border:0;outline:0;padding:11px 6px;font-size:15px;width:100%;background:transparent}
   select{border:1px solid var(--line);background:#fff;border-radius:10px;padding:10px 12px;font-size:14px;color:var(--ink)}
@@ -33,57 +32,59 @@
   .chip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
   .meta{color:var(--sub);font-size:13px;margin:14px 0 10px}
 
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;padding-bottom:120px}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column}
-  .card .img{aspect-ratio:4/3;background:#f3f4f6 center/contain no-repeat;position:relative}
-  .card .img .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#9ca3af;font-size:40px}
-  .tag{position:absolute;top:10px;left:10px;font-size:12px;padding:4px 8px;border-radius:6px;background:#fff;border:1px solid var(--line)}
-  .tag.store{left:auto;right:10px}
-  .soldout .img::after{content:"已售出";position:absolute;inset:0;background:rgba(255,255,255,.7);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:20px;color:var(--danger)}
-  .reserved .img::after{content:"保留中";position:absolute;inset:0;background:rgba(255,255,255,.7);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:20px;color:var(--gold)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;padding-bottom:40px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;cursor:pointer;transition:box-shadow .15s}
+  .card:hover{box-shadow:0 6px 20px rgba(0,0,0,.06)}
+  .cover{aspect-ratio:1/1;background:#f3f4f6 center/cover no-repeat;position:relative}
+  .cover .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#9ca3af;font-size:44px}
+  .tag{position:absolute;top:10px;left:10px;font-size:12px;padding:4px 8px;border-radius:6px;background:rgba(255,255,255,.92);border:1px solid var(--line)}
+  .tag.store{left:auto;right:10px;color:var(--red);font-weight:700}
+  .tag.cnt{top:auto;bottom:10px;left:auto;right:10px}
   .body{padding:14px;display:flex;flex-direction:column;gap:8px;flex:1}
   .name{font-weight:700;font-size:16px;line-height:1.35}
   .specs{display:flex;flex-wrap:wrap;gap:6px}
   .spec{font-size:12px;color:#374151;background:#f3f4f6;border-radius:6px;padding:3px 8px}
-  .note{font-size:12.5px;color:var(--sub);line-height:1.5}
-  .price{display:flex;align-items:baseline;justify-content:space-between;margin-top:auto;padding-top:6px}
-  .price b{font-size:22px}
-  .price small{color:var(--sub);font-size:12px}
+  .price{margin-top:auto;padding-top:6px;font-size:22px;font-weight:800;color:var(--red)}
   .actions{display:flex;gap:8px;padding:0 14px 14px}
   .btn{flex:1;border:0;border-radius:10px;padding:11px 10px;font-size:14px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;text-decoration:none}
   .btn.ghost{background:#f3f4f6;color:var(--ink)}
-  .btn.ghost.on{background:#fbf5e8;color:var(--gold)}
   .btn.line{background:var(--line-green);color:#fff}
-  .btn:disabled{opacity:.4;cursor:not-allowed}
+  .btn.pay{background:#fff;color:var(--ink);border:1px solid var(--line)}
+  .empty{grid-column:1/-1;text-align:center;color:var(--sub);padding:60px 0;line-height:1.8}
+  .skeleton{background:linear-gradient(90deg,#eee 25%,#f6f6f6 50%,#eee 75%);background-size:200% 100%;animation:sh 1.2s infinite;border-radius:var(--radius);height:360px}
+  @keyframes sh{to{background-position:-200% 0}}
 
-  .empty{grid-column:1/-1;text-align:center;color:var(--sub);padding:60px 0}
-
-  /* 底部詢問清單列 */
-  .bar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:#fff;border-top:1px solid var(--line);padding:10px 16px calc(10px + env(safe-area-inset-bottom));display:none}
-  .bar.show{display:block}
-  .bar .wrap{display:flex;gap:10px;align-items:center;padding:0}
-  .bar .count{flex:1;font-size:14px}
-  .bar .count b{font-size:18px}
-
-  /* 抽屜 */
-  .mask{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:40;display:none}
+  /* 詳細頁 */
+  .mask{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:40;display:none}
   .mask.show{display:block}
-  .drawer{position:fixed;left:0;right:0;bottom:0;z-index:50;background:#fff;border-radius:18px 18px 0 0;max-height:88vh;overflow:auto;transform:translateY(100%);transition:transform .25s ease;padding:18px 16px calc(18px + env(safe-area-inset-bottom))}
-  .drawer.show{transform:none}
-  @media(min-width:760px){.drawer{max-width:520px;margin:0 auto;left:0;right:0}}
-  .drawer h2{margin:0 0 12px;font-size:18px}
-  .item{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}
-  .item .x{background:none;border:0;color:var(--sub);font-size:18px;cursor:pointer}
-  .field{margin-top:14px}
-  .field label{display:block;font-size:13px;color:var(--sub);margin-bottom:6px}
-  .field input,.field select,.field textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:15px;font-family:inherit}
-  .seg{display:flex;gap:8px}
-  .seg button{flex:1;border:1px solid var(--line);background:#fff;border-radius:10px;padding:10px;font-size:14px;cursor:pointer}
-  .seg button.on{border-color:var(--accent);background:var(--accent);color:#fff}
-  .rules{background:#f9fafb;border:1px solid var(--line);border-radius:10px;padding:12px;font-size:12.5px;color:#4b5563;line-height:1.7;margin-top:14px}
-  .rules b{color:var(--ink)}
+  .sheet{position:fixed;left:0;right:0;bottom:0;z-index:50;background:#fff;border-radius:18px 18px 0 0;max-height:92vh;overflow:auto;transform:translateY(100%);transition:transform .25s ease}
+  .sheet.show{transform:none}
+  @media(min-width:760px){.sheet{max-width:620px;margin:0 auto}}
+  .sheet .close{position:sticky;top:0;z-index:2;display:flex;justify-content:flex-end;padding:8px 8px 0;background:linear-gradient(#fff,rgba(255,255,255,0))}
+  .sheet .close button{border:0;background:#f3f4f6;border-radius:999px;width:34px;height:34px;font-size:16px;cursor:pointer}
+  .gallery{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:6px;padding:0 16px;scrollbar-width:none;margin-top:-26px}
+  .gallery::-webkit-scrollbar{display:none}
+  .gallery img{flex:none;width:88%;max-width:520px;aspect-ratio:1/1;object-fit:cover;border-radius:12px;scroll-snap-align:center;background:#f3f4f6;cursor:zoom-in}
+  .gallery .noimg{flex:none;width:100%;aspect-ratio:16/9;border-radius:12px;background:#f3f4f6;display:flex;align-items:center;justify-content:center;color:#9ca3af}
+  .dots{text-align:center;color:var(--sub);font-size:12px;margin-top:6px}
+  .detail{padding:14px 16px calc(18px + env(safe-area-inset-bottom))}
+  .detail h2{margin:4px 0 4px;font-size:20px}
+  .detail .p{font-size:26px;font-weight:800;color:var(--red);margin:6px 0 10px}
+  .box{border:1px solid var(--line);border-radius:12px;margin-top:14px;overflow:hidden}
+  .box h3{margin:0;font-size:15px;padding:12px 14px;background:#f9fafb;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+  .box h3 small{font-weight:400;color:var(--sub);font-size:12px}
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  td{padding:9px 14px;border-bottom:1px solid #f1f2f4;vertical-align:top}
+  td:first-child{color:var(--sub);width:42%}
+  tr:last-child td{border-bottom:0}
+  td.bad{color:var(--red);font-weight:700}
+  .note{font-size:12.5px;color:var(--sub);line-height:1.7;padding:12px 14px}
+  .stickyAct{position:sticky;bottom:0;background:#fff;padding:12px 16px calc(12px + env(safe-area-inset-bottom));border-top:1px solid var(--line);display:flex;gap:8px}
+  .viewer{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:60;display:none;align-items:center;justify-content:center}
+  .viewer.show{display:flex}
+  .viewer img{max-width:100%;max-height:100%}
 
-  footer{text-align:center;color:var(--sub);font-size:12px;padding:30px 16px 140px}
+  footer{text-align:center;color:var(--sub);font-size:12px;padding:20px 16px 50px;line-height:1.8}
 </style>
 </head>
 <body>
@@ -91,11 +92,11 @@
 <header class="hero">
   <div class="wrap">
     <h1>中古機現貨</h1>
-    <p>上架前完整檢測・每日更新・售完為止<br>挑好機型後一鍵傳到 LINE，由門市真人回覆庫存與預約。</p>
+    <p>楠梓店・德賢店 現貨，上架前逐項驗機，附實機照片與檢測報告。<br>看中哪一台，按「LINE 詢問」由門市真人為您服務。</p>
     <div class="badges">
-      <span class="badge gold">店保 30 天 + CARE+ 30 天</span>
-      <span class="badge">現場驗機確認</span>
-      <span class="badge">可付訂金保留</span>
+      <span class="badge hl">店保 30 天 + CARE+ 30 天</span>
+      <span class="badge">逐項檢測報告</span>
+      <span class="badge">實機照片</span>
       <span class="badge">現金・全支付・LINE Pay</span>
     </div>
   </div>
@@ -122,274 +123,250 @@
 </div>
 
 <main class="wrap">
-  <div class="meta" id="meta">讀取中…</div>
-  <div class="grid" id="grid"></div>
+  <div class="meta" id="meta">讀取現貨中…</div>
+  <div class="grid" id="grid"><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div></div>
 </main>
 
 <footer>
-  復原者手機維修・楠梓店 高雄市楠梓區楠梓路10號・德賢店 高雄市楠梓區德賢路258號<br>
+  復原者手機維修・楠梓店 高雄市楠梓區楠梓路10號（0900-038-552）<br>
+  德賢店 高雄市楠梓區德賢路258號（0971-626-883）<br>
   營業時間 週一至週六 11:00–21:00（週日公休）<br>
-  頁面價格為現金參考價，實際以門市確認為準。
+  照片與檢測報告為驗機當時狀況，外觀以實機為準；價格與庫存以門市確認為準。
 </footer>
 
-<!-- 底部清單列 -->
-<div class="bar" id="bar">
-  <div class="wrap">
-    <div class="count">詢問清單 <b id="barCount">0</b> 台</div>
-    <button class="btn ghost" style="flex:none;padding:11px 16px" onclick="openDrawer()">查看</button>
-    <button class="btn line" style="flex:none;padding:11px 18px" onclick="openDrawer()">LINE 詢問</button>
-  </div>
-</div>
-
-<!-- 詢問抽屜 -->
-<div class="mask" id="mask" onclick="closeDrawer()"></div>
-<div class="drawer" id="drawer">
-  <h2>傳送到 LINE 詢問</h2>
-  <div id="list"></div>
-
-  <div class="field">
-    <label>詢問門市</label>
-    <div class="seg" id="seg">
-      <button data-store="楠梓店">楠梓店</button>
-      <button data-store="德賢店">德賢店</button>
-    </div>
-  </div>
-  <div class="field">
-    <label>想詢問（可多選）</label>
-    <div class="seg" id="ask" style="flex-wrap:wrap">
-      <button data-ask="確認庫存">確認庫存</button>
-      <button data-ask="付訂金保留">付訂金保留</button>
-      <button data-ask="舊機折抵">舊機折抵</button>
-      <button data-ask="分期">分期</button>
-    </div>
-  </div>
-  <div class="field">
-    <label>稱呼（選填）</label>
-    <input id="nick" placeholder="例如：王先生">
-  </div>
-  <div class="field">
-    <label>備註（選填）</label>
-    <textarea id="memo" rows="2" placeholder="例如：想週六下午到店看機"></textarea>
-  </div>
-
-  <div class="rules">
-    <b>訂金保留說明</b><br>
-    ・售價 $5,000 以下訂金 $1,000，每多 $5,000 加收 $1,000<br>
-    ・付訂後保留 3 天，限本人攜帶證件到店取機<br>
-    ・付訂後會先備好贈品配件；取消時扣除禮包原價，其餘退還
-  </div>
-
-  <div style="display:flex;gap:8px;margin-top:16px">
-    <button class="btn ghost" onclick="closeDrawer()">繼續逛</button>
-    <button class="btn line" id="sendBtn" onclick="sendLine()">💬 傳送到 LINE</button>
-  </div>
-</div>
+<div class="mask" id="mask"></div>
+<div class="sheet" id="sheet"></div>
+<div class="viewer" id="viewer"><img id="viewImg" alt="放大照片"></div>
 
 <script>
 /* =========================================================
-   ① 設定區：門市 LINE@ ID
+   ① 門市 LINE@
    ========================================================= */
 const STORES = {
-  "楠梓店": { lineId: "@826ztlds", addUrl: "https://lin.ee/wGZuE42" },
-  "德賢店": { lineId: "@347agrda", addUrl: "https://lin.ee/vRFmP8e" }
+  "楠梓店": { lineId: "@826ztlds", tel: "0900038552" },
+  "德賢店": { lineId: "@347agrda", tel: "0971626883" }
 };
 
 /* =========================================================
-   ② 庫存來源（二選一）
-   A. 填 Google 試算表「發布到網路 → CSV」的網址，員工改表格即可更新
-   B. 留空 ""，就使用下方 PRODUCTS 陣列
-   試算表欄位（第一列標題）：
-   id,brand,model,storage,color,battery,grade,price,store,status,image,note,date
-   status 填：在庫 / 保留中 / 已售出
+   ② 無卡分期（還沒簽約，先關著）
+   簽約後：enabled 改 true，url 填分期商品頁網址。
+   網址裡可以用 {price} {model}，會自動換成那台的售價和機型。
    ========================================================= */
-const SHEET_CSV_URL = "";
-
-/* ③ 內建範例資料（上線前請換成實際庫存） */
-const PRODUCTS = [
-  {id:"N001",brand:"iPhone",model:"iPhone 15 Pro",storage:"256GB",color:"原色鈦金屬",battery:91,grade:"A",price:24900,store:"楠梓店",status:"在庫",image:"",note:"外觀近全新，盒裝配件齊",date:"2026-11-24"},
-  {id:"N002",brand:"iPhone",model:"iPhone 13",storage:"128GB",color:"午夜色",battery:86,grade:"B",price:10900,store:"楠梓店",status:"在庫",image:"",note:"邊框輕微使用痕跡",date:"2026-11-23"},
-  {id:"D001",brand:"Samsung",model:"Galaxy S24",storage:"256GB",color:"玄武黑",battery:95,grade:"A",price:16900,store:"德賢店",status:"在庫",image:"",note:"",date:"2026-11-22"},
-  {id:"D002",brand:"Google",model:"Pixel 8",storage:"128GB",color:"曜石黑",battery:89,grade:"A",price:9900,store:"德賢店",status:"保留中",image:"",note:"",date:"2026-11-20"},
-  {id:"N003",brand:"iPhone",model:"iPhone 12",storage:"64GB",color:"白色",battery:83,grade:"B",price:6900,store:"楠梓店",status:"已售出",image:"",note:"",date:"2026-11-18"},
-  {id:"D003",brand:"iPad",model:"iPad 第 10 代 Wi-Fi",storage:"64GB",color:"藍色",battery:92,grade:"A",price:8900,store:"德賢店",status:"在庫",image:"",note:"",date:"2026-11-21"}
-];
+const INSTALLMENT = {
+  enabled: false,
+  label: "無卡分期",
+  url: ""          // 例："https://分期廠商網址/apply?amount={price}"
+};
 
 /* =========================================================
-   以下為程式，一般不用改
+   ③ 資料來源：保固系統「中古機庫存」自動整理的現貨清單（唯讀）
+   在 care/stock.html 改庫存、上傳照片、填驗機表後，這裡會跟著更新
    ========================================================= */
+const SHOWCASE_URL = "https://firestore.googleapis.com/v1/projects/care-warranty/databases/(default)/documents/settings/used_showcase?key=AIzaSyD04ZMXIt8Oo3hjm5qsMaKiLXYzp_9YKwA";
+const CACHE_MIN = 3;   // 同一位客人 3 分鐘內重開頁面不重複讀，省資料庫額度
+
+/* 驗機表項目（跟 care/stock.html 的 CHECK_ITEMS 同一份順序；IMEI 不顯示） */
+const CHECK = [['ver','銷售國家版本'],['carrier','是否有電信業者鎖定'],['account','iCloud／Google 帳號已退出'],['orig','原廠保固到期時間'],['look','螢幕外觀'],
+  ['screen','螢幕功能狀況'],['touch','觸控狀況'],['grade','機身新舊程度'],['bio','臉部／指紋辨識'],['cell','4G／5G 網路'],['wifi','Wi-Fi'],
+  ['bt','藍牙'],['fcam','前鏡頭拍照'],['rcam','後鏡頭拍照'],['btn','機身所有按鈕'],['spk','喇叭和聽筒'],['mic','麥克風錄音'],['port','充電口'],['qi','無線充電'],
+  ['nfc','NFC'],['prox','距離感應'],['light','自動亮度感應']];
+
+/* ========================================================= */
 let items = [];
 let state = { q:"", brand:"全部", store:"", sort:"new" };
-let cart = loadCart();
-let pickStore = "";
-let asks = new Set(["確認庫存"]);
-
 const $ = s => document.querySelector(s);
-const fmt = n => "$" + Number(n).toLocaleString("zh-TW");
-const deposit = p => Math.max(1, Math.ceil(Number(p) / 5000)) * 1000;
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const fmt = n => "$" + Number(n).toLocaleString("zh-TW");
+const img = (id, w) => "https://lh3.googleusercontent.com/d/" + encodeURIComponent(id) + "=w" + w;
+const bat = b => b ? String(b).replace(/%$/, "") : "";
 
-function loadCart(){ try{ return JSON.parse(localStorage.getItem("gmf_cart")||"[]"); }catch(e){ return []; } }
-function saveCart(){ try{ localStorage.setItem("gmf_cart", JSON.stringify(cart)); }catch(e){} }
-
-function parseCSV(text){
-  const rows=[]; let row=[], cell="", q=false;
-  for(let i=0;i<text.length;i++){
-    const c=text[i];
-    if(q){ if(c=='"'){ if(text[i+1]=='"'){cell+='"';i++;} else q=false; } else cell+=c; }
-    else if(c=='"') q=true;
-    else if(c==','){ row.push(cell); cell=""; }
-    else if(c=='\n'){ row.push(cell); rows.push(row); row=[]; cell=""; }
-    else if(c!='\r') cell+=c;
-  }
-  if(cell||row.length){ row.push(cell); rows.push(row); }
-  const head = rows.shift().map(h=>h.trim());
-  return rows.filter(r=>r.some(v=>v.trim())).map(r=>{
-    const o={}; head.forEach((h,i)=>o[h]=(r[i]||"").trim());
-    o.price=Number(o.price.replace(/[^\d]/g,""))||0;
-    o.battery=Number(o.battery)||"";
-    o.status=o.status||"在庫";
-    return o;
-  });
+function brandOf(m){
+  const s = String(m||"");
+  if (/iphone/i.test(s)) return "iPhone";
+  if (/ipad/i.test(s)) return "iPad";
+  if (/galaxy|samsung|三星|^s\d|^a\d|^z\s?(flip|fold)|^note/i.test(s)) return "Samsung";
+  if (/pixel|google/i.test(s)) return "Google";
+  if (/redmi|xiaomi|小米|poco/i.test(s)) return "小米";
+  if (/oppo|reno|find/i.test(s)) return "OPPO";
+  if (/vivo/i.test(s)) return "vivo";
+  if (/sony|xperia/i.test(s)) return "Sony";
+  if (/asus|zenfone|rog/i.test(s)) return "ASUS";
+  if (/watch/i.test(s)) return "手錶";
+  return "其他";
 }
 
 async function load(){
-  if(SHEET_CSV_URL){
+  let json = null;
+  try{
+    const c = JSON.parse(sessionStorage.getItem("gmf_showcase") || "null");
+    if (c && Date.now() - c.t < CACHE_MIN*60000) json = c.json;
+  }catch(e){}
+  if (json == null){
     try{
-      const res = await fetch(SHEET_CSV_URL + (SHEET_CSV_URL.includes("?")?"&":"?") + "t=" + Date.now());
-      items = parseCSV(await res.text());
+      const r = await fetch(SHOWCASE_URL);
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      const d = await r.json();
+      json = d.fields?.json?.stringValue || "[]";
+      try{ sessionStorage.setItem("gmf_showcase", JSON.stringify({ t: Date.now(), json })); }catch(e){}
     }catch(e){
-      console.warn("試算表讀取失敗，改用內建資料", e);
-      items = PRODUCTS;
+      console.warn("讀取現貨失敗", e);
+      $("#meta").textContent = "";
+      $("#grid").innerHTML = `<div class="empty">現貨清單暫時讀不到，請稍後再試<br>或直接 <a href="${lineUrl("楠梓店","想詢問目前有哪些中古機")}">LINE 詢問門市</a></div>`;
+      return;
     }
-  } else items = PRODUCTS;
-  // 清單裡已不存在或已售出的機子自動移除
-  cart = cart.filter(id => items.some(p => p.id===id && p.status!=="已售出"));
-  saveCart();
-  renderBrands(); render(); renderBar();
+  }
+  try{ items = JSON.parse(json) || []; }catch(e){ items = []; }
+  items.forEach((p,i) => { p._i = i; p._brand = brandOf(p.model); });
+  renderBrands(); render();
+  const m = location.hash.match(/^#item=(.+)$/);
+  if (m) { const p = items.find(x => String(x.id) === decodeURIComponent(m[1])); if (p) openItem(p); }
 }
 
 function renderBrands(){
-  const brands = ["全部", ...new Set(items.map(p=>p.brand).filter(Boolean))];
+  const order = ["iPhone","iPad","Samsung","Google","小米","OPPO","vivo","Sony","ASUS","手錶","其他"];
+  const have = new Set(items.map(p=>p._brand));
+  const brands = ["全部", ...order.filter(b=>have.has(b))];
   $("#brands").innerHTML = brands.map(b=>`<button class="chip ${b===state.brand?"on":""}" data-b="${esc(b)}">${esc(b)}</button>`).join("");
   $("#brands").querySelectorAll(".chip").forEach(el=>el.onclick=()=>{ state.brand=el.dataset.b; renderBrands(); render(); });
+}
+
+function specs(p){
+  const c = p.check || {};
+  const out = [];
+  if (p.color) out.push(p.color);
+  const b = bat(p.battery || c.battery); if (b) out.push("電池 " + b + "%");
+  if (p.cond) out.push(p.cond);
+  if (p.waterproof) out.push("氣密正常");
+  if (p.box) out.push("盒裝");
+  if (p.cable) out.push("原廠線");
+  return out;
 }
 
 function render(){
   const q = state.q.toLowerCase();
   let list = items.filter(p=>{
-    if(state.brand!=="全部" && p.brand!==state.brand) return false;
-    if(state.store && p.store!==state.store) return false;
-    if(q){
-      const hay = [p.brand,p.model,p.storage,p.color,p.note,p.id].join(" ").toLowerCase();
-      if(!q.split(/\s+/).every(w=>hay.includes(w))) return false;
+    if (state.brand!=="全部" && p._brand!==state.brand) return false;
+    if (state.store && p.branch!==state.store) return false;
+    if (q){
+      const hay = [p.model,p.color,p.cond,p.acc,p.branch].join(" ").toLowerCase();
+      if (!q.split(/\s+/).every(w=>hay.includes(w))) return false;
     }
     return true;
   });
-  const rank = s => s==="已售出"?2:(s==="保留中"?1:0);
   list.sort((a,b)=>{
-    if(rank(a.status)!==rank(b.status)) return rank(a.status)-rank(b.status);
-    if(state.sort==="low") return a.price-b.price;
-    if(state.sort==="high") return b.price-a.price;
-    if(state.sort==="battery") return (b.battery||0)-(a.battery||0);
-    return String(b.date).localeCompare(String(a.date));
+    if (state.sort==="low") return a.price-b.price;
+    if (state.sort==="high") return b.price-a.price;
+    if (state.sort==="battery") return (Number(bat(b.battery||b.check?.battery))||0)-(Number(bat(a.battery||a.check?.battery))||0);
+    return a._i-b._i;   // 清單本來就是新到舊
   });
-  const avail = list.filter(p=>p.status==="在庫").length;
-  $("#meta").textContent = `共 ${list.length} 台，可購買 ${avail} 台`;
-
-  if(!list.length){ $("#grid").innerHTML = `<div class="empty">找不到符合的機型<br>可以直接 LINE 詢問，門市幫你調貨或留意</div>`; return; }
-
+  $("#meta").textContent = `共 ${list.length} 台現貨`;
+  if (!list.length){
+    $("#grid").innerHTML = `<div class="empty">${items.length ? "找不到符合的機型" : "目前現貨都被訂走了"}<br>可以 <a href="${lineUrl(state.store||"楠梓店","想詢問有沒有適合的中古機")}">LINE 詢問門市</a>，幫你留意或調貨</div>`;
+    return;
+  }
   $("#grid").innerHTML = list.map(p=>{
-    const inCart = cart.includes(p.id);
-    const cls = p.status==="已售出"?"soldout":(p.status==="保留中"?"reserved":"");
-    const off = p.status!=="在庫";
+    const ph = (p.photos||[]).filter(Boolean);
     return `
-    <div class="card ${cls}">
-      <div class="img" ${p.image?`style="background-image:url('${esc(p.image)}')"`:""}>
-        ${p.image?"":`<div class="ph">📱</div>`}
-        <span class="tag">${esc(p.grade?("外觀 "+p.grade+" 級"):"中古機")}</span>
-        <span class="tag store">${esc(p.store)}</span>
+    <div class="card" data-i="${p._i}">
+      <div class="cover" ${ph[0]?`style="background-image:url('${img(ph[0],600)}')"`:""}>
+        ${ph[0]?"":`<div class="ph">📱</div>`}
+        <span class="tag store">${esc(p.branch||"門市")}</span>
+        ${ph.length>1?`<span class="tag cnt">📷 ${ph.length}</span>`:""}
       </div>
       <div class="body">
         <div class="name">${esc(p.model)}</div>
-        <div class="specs">
-          ${p.storage?`<span class="spec">${esc(p.storage)}</span>`:""}
-          ${p.color?`<span class="spec">${esc(p.color)}</span>`:""}
-          ${p.battery?`<span class="spec">電池 ${esc(p.battery)}%</span>`:""}
-          <span class="spec">編號 ${esc(p.id)}</span>
-        </div>
-        ${p.note?`<div class="note">${esc(p.note)}</div>`:""}
-        <div class="price"><b>${fmt(p.price)}</b><small>訂金 ${fmt(deposit(p.price))}</small></div>
+        <div class="specs">${specs(p).map(s=>`<span class="spec">${esc(s)}</span>`).join("")}</div>
+        <div class="price">${fmt(p.price)}</div>
       </div>
       <div class="actions">
-        <button class="btn ghost ${inCart?"on":""}" ${off?"disabled":""} onclick="toggle('${esc(p.id)}')">${inCart?"✓ 已加入":"＋ 詢問清單"}</button>
-        <button class="btn line" ${off?"disabled":""} onclick="quick('${esc(p.id)}')">LINE 問</button>
+        <button class="btn ghost" data-act="more">看照片・檢測報告</button>
+        <button class="btn line" data-act="line">LINE 詢問</button>
       </div>
     </div>`;
   }).join("");
+  $("#grid").querySelectorAll(".card").forEach(el=>{
+    const p = items[Number(el.dataset.i)];
+    el.onclick = e => {
+      const act = e.target.closest("[data-act]")?.dataset.act;
+      if (act === "line") { e.stopPropagation(); askLine(p); return; }
+      openItem(p);
+    };
+  });
 }
 
-function toggle(id){
-  cart = cart.includes(id) ? cart.filter(x=>x!==id) : [...cart, id];
-  saveCart(); render(); renderBar();
-}
-function quick(id){
-  if(!cart.includes(id)){ cart.push(id); saveCart(); render(); renderBar(); }
-  openDrawer(items.find(p=>p.id===id)?.store);
-}
-function renderBar(){
-  $("#barCount").textContent = cart.length;
-  $("#bar").classList.toggle("show", cart.length>0);
+function checkTable(p){
+  const c = p.check;
+  if (!c) return `<div class="box"><h3>檢測報告</h3><div class="note">這台的檢測報告整理中，到店時會現場驗機給您看。</div></div>`;
+  const rows = [];
+  const b = bat(c.battery || p.battery); if (b) rows.push(["電池健康度", b + "%"]);
+  CHECK.forEach(([k,l]) => { if (c[k]) rows.push([l, c[k]]); });
+  return `<div class="box"><h3>檢測報告${c.date?`<small>驗機日期 ${esc(c.date)}</small>`:""}</h3>
+    <table>${rows.map(([l,v])=>`<tr><td>${esc(l)}</td><td class="${v==="異常"?"bad":""}">${esc(v)}</td></tr>`).join("")}</table></div>`;
 }
 
-function openDrawer(store){
-  const picked = items.filter(p=>cart.includes(p.id));
-  pickStore = store || pickStore || picked[0]?.store || "楠梓店";
-  $("#list").innerHTML = picked.length ? picked.map(p=>`
-    <div class="item">
-      <div><b>${esc(p.model)}</b> ${esc(p.storage)} ${esc(p.color)}<br>
-      <span style="color:var(--sub);font-size:12px">${esc(p.id)}・${esc(p.store)}・${fmt(p.price)}</span></div>
-      <button class="x" onclick="toggle('${esc(p.id)}');openDrawer()">✕</button>
-    </div>`).join("") : `<div class="note">清單是空的，也可以直接傳訊息詢問。</div>`;
-  const other = picked.some(p=>p.store!==pickStore);
-  if(other) $("#list").insertAdjacentHTML("beforeend",`<div class="note" style="margin-top:8px">※ 清單中有其他門市的機子，門市會協助調貨。</div>`);
-  syncSeg();
-  $("#mask").classList.add("show"); $("#drawer").classList.add("show");
+function openItem(p){
+  const ph = (p.photos||[]).filter(Boolean);
+  const days = Number(p.check?.days) || 30;
+  const extra = [p.waterproof?"氣密正常":"", p.box?"盒裝":"", p.cable?"原廠線":"", p.acc].filter(Boolean).join("・");
+  const pay = INSTALLMENT.enabled && INSTALLMENT.url
+    ? `<a class="btn pay" href="${esc(INSTALLMENT.url.replace("{price}", encodeURIComponent(p.price)).replace("{model}", encodeURIComponent(p.model)))}" target="_blank" rel="noopener">💳 ${esc(INSTALLMENT.label)}</a>` : "";
+  $("#sheet").innerHTML = `
+    <div class="close"><button onclick="closeItem()" aria-label="關閉">✕</button></div>
+    <div class="gallery" id="gal">${ph.length ? ph.map((id,i)=>`<img src="${img(id,1000)}" data-full="${img(id,1600)}" alt="${esc(p.model)} 照片 ${i+1}" loading="${i?"lazy":"eager"}">`).join("") : `<div class="noimg">照片整理中</div>`}</div>
+    ${ph.length>1?`<div class="dots" id="dots">1 / ${ph.length}・左右滑動看更多</div>`:""}
+    <div class="detail">
+      <div style="color:var(--red);font-weight:700;font-size:13px">${esc(p.branch||"")}</div>
+      <h2>${esc(p.model)}</h2>
+      <div class="specs">${specs(p).map(s=>`<span class="spec">${esc(s)}</span>`).join("")}</div>
+      <div class="p">${fmt(p.price)}</div>
+      ${extra?`<div class="note" style="padding:0">附件：${esc(extra)}</div>`:""}
+      ${checkTable(p)}
+      <div class="box"><h3>保固與購買方式</h3><div class="note">
+        ・本店保固 ${days} 天，加入 LINE 好友再享 CARE+ 延長 30 天<br>
+        ・按「LINE 詢問」由門市真人回覆，保留方式、贈品、付款都在 LINE 說明<br>
+        ・限到店取機，取機時請攜帶身分證件，現場驗機確認後交機
+      </div></div>
+    </div>
+    <div class="stickyAct">
+      ${pay}
+      <a class="btn line" href="${lineUrl(p.branch, interestText(p))}" onclick="track('${esc(p.branch)}')">💬 LINE 詢問這台</a>
+    </div>`;
+  $("#mask").classList.add("show"); $("#sheet").classList.add("show");
+  $("#sheet").scrollTop = 0;
+  try{ history.replaceState(null, "", "#item=" + encodeURIComponent(p.id)); }catch(e){}
+  const gal = $("#gal");
+  if (ph.length > 1) gal.addEventListener("scroll", () => {
+    const i = Math.round(gal.scrollLeft / (gal.firstElementChild.offsetWidth + 6));
+    $("#dots").textContent = `${Math.min(i+1, ph.length)} / ${ph.length}・左右滑動看更多`;
+  }, { passive:true });
+  gal.querySelectorAll("img").forEach(im => im.onclick = () => { $("#viewImg").src = im.dataset.full; $("#viewer").classList.add("show"); });
 }
-function closeDrawer(){ $("#mask").classList.remove("show"); $("#drawer").classList.remove("show"); }
-
-function syncSeg(){
-  document.querySelectorAll("#seg button").forEach(b=>b.classList.toggle("on", b.dataset.store===pickStore));
-  document.querySelectorAll("#ask button").forEach(b=>b.classList.toggle("on", asks.has(b.dataset.ask)));
+function closeItem(){
+  $("#mask").classList.remove("show"); $("#sheet").classList.remove("show");
+  try{ history.replaceState(null, "", location.pathname + location.search); }catch(e){}
 }
-document.querySelectorAll("#seg button").forEach(b=>b.onclick=()=>{ pickStore=b.dataset.store; openDrawer(pickStore); });
-document.querySelectorAll("#ask button").forEach(b=>b.onclick=()=>{
-  asks.has(b.dataset.ask)?asks.delete(b.dataset.ask):asks.add(b.dataset.ask); syncSeg();
-});
+$("#mask").onclick = closeItem;
+$("#viewer").onclick = () => $("#viewer").classList.remove("show");
 
-function buildMessage(){
-  const picked = items.filter(p=>cart.includes(p.id));
-  const lines = ["您好，我在官網中古機現貨看到："];
-  picked.forEach((p,i)=>lines.push(`${i+1}. [${p.id}] ${p.model} ${p.storage} ${p.color} ${fmt(p.price)}（${p.store}）`));
-  if(!picked.length) lines.push("（想詢問目前有哪些中古機）");
-  if(asks.size) lines.push("想詢問：" + [...asks].join("、"));
-  const nick = $("#nick").value.trim(), memo = $("#memo").value.trim();
-  if(nick) lines.push("稱呼：" + nick);
-  if(memo) lines.push("備註：" + memo);
-  return lines.join("\n");
+/* LINE 訊息格式跟 LINE 卡片的「先問問題」一樣，機器人會自動回覆門市地址電話，店員再接手 */
+function interestText(p){
+  const label = (p.model + (p.color ? " " + p.color : "")).slice(0, 40);
+  return "我有興趣：" + label + "（" + (p.branch || "楠梓店") + "）$" + p.price + "\n（官網中古機現貨）";
 }
-
-function sendLine(){
-  const s = STORES[pickStore]; if(!s) return;
-  const url = "https://line.me/R/oaMessage/" + encodeURIComponent(s.lineId) + "/?" + encodeURIComponent(buildMessage());
-  // 追蹤（若網站有裝 GA4 / Meta Pixel 會自動記錄）
-  try{ window.gtag && gtag("event","line_inquiry",{store:pickStore,items:cart.length}); }catch(e){}
-  try{ window.fbq && fbq("track","Contact",{content_category:"used_phone"}); }catch(e){}
-  window.location.href = url;
+function lineUrl(branch, text){
+  const s = STORES[branch] || STORES["楠梓店"];
+  return "https://line.me/R/oaMessage/" + encodeURIComponent(s.lineId) + "/?" + encodeURIComponent(text);
+}
+function askLine(p){ track(p.branch); location.href = lineUrl(p.branch, interestText(p)); }
+function track(branch){
+  try{ window.gtag && gtag("event","line_inquiry",{ store: branch }); }catch(e){}
+  try{ window.fbq && fbq("track","Contact",{ content_category:"used_phone" }); }catch(e){}
 }
 
 $("#q").addEventListener("input", e=>{ state.q=e.target.value.trim(); render(); });
 $("#store").addEventListener("change", e=>{ state.store=e.target.value; render(); });
 $("#sort").addEventListener("change", e=>{ state.sort=e.target.value; render(); });
+document.addEventListener("keydown", e=>{ if (e.key==="Escape"){ $("#viewer").classList.remove("show"); closeItem(); } });
 
 load();
 </script>
