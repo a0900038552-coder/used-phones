@@ -122,6 +122,21 @@
   .detail h2{margin:4px 0 4px;font-size:20px}
   .detail .p{font-size:26px;font-weight:800;color:var(--red);margin:6px 0 10px}
   .sbox{border:1px solid var(--line);border-radius:12px;margin-top:14px;overflow:hidden}
+  .bundles{display:grid;grid-template-columns:1fr;gap:10px;margin-top:14px}
+  .bundles > h3{margin:0;font-size:15px}
+  .bundles > h3 small{font-weight:400;color:var(--sub);font-size:12px;margin-left:6px}
+  .bd{position:relative;border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;background:#fff}
+  .bd.hot{border-color:var(--red);background:#fff8f8}
+  .bd.on{border-color:var(--red);box-shadow:0 0 0 2px rgba(215,25,32,.18)}
+  .bd .tag{position:absolute;top:-10px;right:12px;background:var(--red);color:#fff;font-size:11px;font-weight:800;padding:2px 9px;border-radius:999px}
+  .bd .t{font-weight:800;font-size:15px}
+  .bd .its{font-size:12.5px;color:var(--sub);margin:4px 0 8px;line-height:1.55}
+  .bd .row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .bd .pr s{color:var(--sub);font-size:12px;margin-right:4px}
+  .bd .pr b{color:var(--red);font-size:18px}
+  .bd .pr small{display:block;font-size:11.5px;color:#15803d}
+  .bd button{flex:none;border:0;border-radius:10px;padding:9px 14px;font:inherit;font-weight:800;font-size:14px;background:var(--red);color:#fff;cursor:pointer}
+  .bd.on button{background:#15803d}
   .sbox > h3{margin:0;font-size:15px;padding:12px 14px;background:#f9fafb;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;cursor:pointer}
   .sbox > h3 small{font-weight:400;color:var(--sub);font-size:12px}
   .sbox .inner{padding:10px}
@@ -457,7 +472,7 @@ function openItem(p){
       <div class="p">${fmt(p.price)}</div>
       ${extra?`<div class="note" style="padding:0">附件：${esc(extra)}</div>`:""}
       ${p.peer?`<div class="note" style="padding:6px 0 0">※ 這台為合作同業調貨，到店看機請先 LINE 預約</div>`:""}
-      ${fitAccs.length ? `<div class="sbox"><h3>🎧 推薦相容配件（${fitAccs.length}）<small>勾選後一起帶入 LINE</small></h3><div class="inner" id="dAcc">${accGroups(fitAccs, detailPicked)}</div></div>` : ""}
+      ${fitAccs.length ? `<div id="dBund">${bundlesHtml(fitAccs, detailPicked)}</div><div class="sbox"><h3>🎧 推薦相容配件（${fitAccs.length}）<small>勾選後一起帶入 LINE</small></h3><div class="inner" id="dAcc">${accGroups(fitAccs, detailPicked)}</div></div>` : ""}
       ${checkTable(p)}
       <div class="sbox"><h3>保固與購買方式</h3><div class="note">
         ・本店保固 ${days} 天，加入 LINE 好友再享 CARE+ 延長 30 天<br>
@@ -467,7 +482,7 @@ function openItem(p){
     </div>
     <div class="stickyAct" id="dAct"></div>`;
   drawDetailAct();
-  if (fitAccs.length) bindAcc($("#dAcc"), detailPicked, () => drawDetailAct());
+  if (fitAccs.length) wireDetailAcc(fitAccs);
   $("#mask").classList.add("show"); $("#sheet").classList.add("show");
   $("#sheet").scrollTop = 0;
   try{ history.replaceState(null, "", "#item=" + encodeURIComponent(p.id)); }catch(e){}
@@ -488,12 +503,18 @@ function openAccFor(p){
       <h2 style="margin-top:10px">適合 ${esc(p._m ? p._m.name : p.model)} 的配件</h2>
       <div class="note" style="padding:0">勾選想要的配件，會跟這台手機一起帶入 LINE。</div>
       <div class="phonebox"><div><small>目前手機</small><b>${esc(p.model)}</b><small>${esc([p.color, p.branch].filter(Boolean).join("・"))}</small></div><b style="color:var(--red)">${fmt(p.price)}</b></div>
-      <div id="dAcc">${accGroups(fitAccs, detailPicked)}</div>
+      <div id="dBund">${bundlesHtml(fitAccs, detailPicked)}</div>
+      <div id="dAcc" style="margin-top:12px">${accGroups(fitAccs, detailPicked)}</div>
     </div>
     <div class="stickyAct" id="dAct"></div>`;
   drawDetailAct();
-  bindAcc($("#dAcc"), detailPicked, () => drawDetailAct());
+  wireDetailAcc(fitAccs);
   $("#mask").classList.add("show"); $("#sheet").classList.add("show"); $("#sheet").scrollTop = 0;
+}
+function wireDetailAcc(fit){
+  const redraw = () => { $("#dBund").innerHTML = bundlesHtml(fit, detailPicked); $("#dAcc").innerHTML = accGroups(fit, detailPicked); wire(); drawDetailAct(); };
+  const wire = () => { bindBundles($("#dBund"), fit, detailPicked, redraw); bindAcc($("#dAcc"), detailPicked, () => { $("#dBund").innerHTML = bundlesHtml(fit, detailPicked); bindBundles($("#dBund"), fit, detailPicked, redraw); drawDetailAct(); }); };
+  wire();
 }
 function drawDetailAct(){
   const p = curItem, picked = accs.filter(a => detailPicked.has(a.id));
@@ -512,6 +533,59 @@ $("#mask").onclick = closeItem;
 $("#viewer").onclick = () => $("#viewer").classList.remove("show");
 
 /* ───────── 配件 ───────── */
+/* ✨ 建議搭配：依機型從相容配件自動組三套（基本保護／安心組／全配組）
+ * 每個分類挑一件：配件管理標「⭐ 推薦」的優先；沒有就挑該分類中間價位那件。只用每滿 $1,000 折 $100，不額外打折。 */
+const BUNDLE_DEF = [
+  { key: "basic", name: "🛡️ 基本保護", cats: ["保護貼", "手機殼", "鏡頭貼"] },
+  { key: "safe",  name: "⭐ 安心組", cats: ["保護貼", "手機殼", "鏡頭貼", "充電器", "充電線"], hot: true },
+  { key: "full",  name: "💎 全配組", cats: ["保護貼", "手機殼", "鏡頭貼", "充電器", "充電線", ["行動電源", "耳機"]] },
+];
+function pickOne(list, cat){
+  const g = list.filter(a => a.cat === cat); if (!g.length) return null;
+  const star = g.filter(a => a.pick); if (star.length) return star[0];
+  const byP = g.slice().sort((a, b) => Number(a.price) - Number(b.price));
+  return byP[Math.floor((byP.length - 1) / 2)];
+}
+function buildBundles(fit){
+  const out = []; let prevIds = "";
+  BUNDLE_DEF.forEach(d => {
+    const items = d.cats.map(c => Array.isArray(c) ? c.map(x => pickOne(fit, x)).find(Boolean) : pickOne(fit, c)).filter(Boolean);
+    const ids = items.map(a => a.id).join(",");
+    if (items.length < 2 || ids === prevIds) return;
+    prevIds = ids;
+    const sum = items.reduce((s, a) => s + Number(a.price || 0), 0), r = promoOf(sum);
+    out.push({ ...d, items, sum, pay: r.pay, off: r.off });
+  });
+  return out;
+}
+let curBundles = [], curBundleKey = "";
+function bundlesHtml(fit, picked){
+  curBundles = buildBundles(fit);
+  if (!curBundles.length) return "";
+  const pickedIds = [...picked].sort().join(",");
+  return `<div class="bundles" id="bundles"><h3>✨ 建議搭配<small>不知道怎麼選？直接選一組，之後還能自己加減</small></h3>${curBundles.map(b => {
+    const on = pickedIds && pickedIds === b.items.map(a => a.id).sort().join(",");
+    return `<div class="bd ${b.hot ? "hot" : ""} ${on ? "on" : ""}">${b.hot ? '<span class="tag">最多人選</span>' : ""}
+      <div class="t">${esc(b.name)}<span style="font-weight:400;color:var(--sub);font-size:12.5px">・${b.items.length} 件</span></div>
+      <div class="its">${b.items.map(a => esc(a.name)).join("＋")}</div>
+      <div class="row"><div class="pr">${b.off ? `<s>${fmt(b.sum)}</s>` : ""}<b>${fmt(b.pay)}</b>${b.off ? `<small>滿額折 −${fmt(b.off)}</small>` : ""}</div>
+        <button type="button" data-bundle="${b.key}">${on ? "✓ 已選這組" : "選這組"}</button></div></div>`;
+  }).join("")}</div>`;
+}
+function bindBundles(root, fit, picked, redraw){
+  const box = root.querySelector("#bundles"); if (!box) return;
+  box.onclick = e => {
+    const bt = e.target.closest("[data-bundle]"); if (!bt) return;
+    const b = curBundles.find(x => x.key === bt.dataset.bundle); if (!b) return;
+    picked.clear(); b.items.forEach(a => picked.add(a.id)); curBundleKey = b.key;
+    redraw();
+  };
+}
+function bundleNameOf(pickedArr){
+  const ids = pickedArr.map(a => a.id).sort().join(",");
+  const b = curBundles.find(x => x.items.map(a => a.id).sort().join(",") === ids);
+  return b ? b.name.replace(/^\S+\s/, "") : "";
+}
 function accGroups(list, picked){
   const cats = (M?.CATS || []).concat([...new Set(list.map(a=>a.cat))].filter(c => !(M?.CATS || []).includes(c)));
   return cats.map(c => {
@@ -584,7 +658,8 @@ function interestText(p, picked){
   const label = (p.model + (p.color ? " " + p.color : "")).slice(0, 40);
   const lines = ["我有興趣：" + label + "（" + (p.branch || "楠梓店") + "）$" + p.price];
   if (picked.length){
-    lines.push("加購配件：");
+    const bn = bundleNameOf(picked);
+    lines.push(bn ? "加購配件（建議搭配：" + bn + "）：" : "加購配件：");
     picked.forEach(a => lines.push("・" + a.name + " " + fmt(a.price)));
     const as = picked.reduce((s,a)=>s+Number(a.price||0),0);
     lines.push("配件合計：" + fmt(as), ...promoLines(as));
